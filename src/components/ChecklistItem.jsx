@@ -10,7 +10,7 @@ function ChecklistItem({
     checkedItems,
     toggleItem,
 }) {
-    const [picsVisible, setPicsVisible] = useState(true);
+    const [picsVisible, setPicsVisible] = useState(false);
 
     return (
         <li className="text-black bg-stone-500 shadow-md shadow-black  transition-all duration-450 box-border w-full rounded-md flex flex-col p-2 gap-2">
