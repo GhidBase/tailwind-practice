@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../tailwind.css";
 import ChecklistItem from "./ChecklistItem";
 
 function Checklist() {
     const [checkedItems, setCheckedItems] = useState({});
+    const [checklistItems, setChecklistItems] = useState([]);
+
+    useEffect(() => {
+        fetch("https://guide-site-backend.onrender.com/checklists/1")
+            .then((response) => response.json())
+            .then((result) => setChecklistItems(result));
+    }, []);
+    console.log(checklistItems);
 
     function toggleItem(id) {
         const newItems = { ...checkedItems };
@@ -20,28 +28,26 @@ function Checklist() {
         <div>
             <p className="my-2">
                 Checklist -{" "}
-                {Object.values(checkedItems).filter((checked) => checked).length}/30
-                Fleas
+                {
+                    Object.values(checkedItems).filter((checked) => checked)
+                        .length
+                }
+                /30 Fleas
             </p>
             <ul className="w-full px-4 flex flex-col gap-4">
-                <ChecklistItem
-                    title="Moss Grotto 1"
-                    inGameUrl={
-                        "https://checklist-images-guides.s3.us-east-2.amazonaws.com/flea-guide/in-game-images/01.jpg"
-                    }
-                    mapUrl={
-                        "https://checklist-images-guides.s3.us-east-2.amazonaws.com/flea-guide/map-images/01.jpg"
-                    }
-                    id={1}
-                    toggleItem={toggleItem}
-                    checkedItems={checkedItems}
-                />
-                <ChecklistItem
-                    title="Moss Grotto 2"
-                    id={2}
-                    toggleItem={toggleItem}
-                    checkedItems={checkedItems}
-                />
+                {checklistItems.map((item) => {
+                    console.log(item);
+                    return (
+                        <ChecklistItem
+                            title={item.title}
+                            id={item.id}
+                            inGameUrl={item.imageOne}
+                            mapUrl={item.imageTwo}
+                            toggleItem={toggleItem}
+                            checkedItems={checkedItems}
+                        />
+                    );
+                })}
             </ul>
         </div>
     );
