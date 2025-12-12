@@ -6,6 +6,6 @@ import Checklist from "./components/Checklist.jsx";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <Checklist></Checklist>
+        <Checklist checklistId="1" />
     </StrictMode>
 );

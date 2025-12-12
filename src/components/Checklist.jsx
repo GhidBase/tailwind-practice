@@ -2,20 +2,25 @@ import { useState, useEffect } from "react";
 import "../tailwind.css";
 import ChecklistItem from "./ChecklistItem";
 
-function Checklist() {
-    const [checkedItems, setCheckedItems] = useState({});
+function Checklist({ checklistId }) {
+    const localChecked = JSON.parse(localStorage.getItem("checkedItems"));
+    if (!localChecked) {
+        localStorage.setItem("checkedItems", JSON.stringify({}));
+    }
+    const [checkedItems, setCheckedItems] = useState(localChecked);
     const [checklistItems, setChecklistItems] = useState([]);
-    console.log(checklistItems);
 
     useEffect(() => {
-        fetch("https://guide-site-backend.onrender.com/checklists/1")
+        fetch(
+            "https://guide-site-backend.onrender.com/checklists/" + checklistId
+        )
             .then((response) => response.json())
             .then((result) =>
                 setChecklistItems(
                     result.sort((a, b) => a.title.localeCompare(b.title))
                 )
             );
-    }, []);
+    }, [checklistId]);
 
     function toggleItem(id) {
         const newItems = { ...checkedItems };
@@ -25,6 +30,7 @@ function Checklist() {
         } else {
             newItems[id] = true;
         }
+        localStorage.setItem("checkedItems", JSON.stringify(newItems));
         setCheckedItems(newItems);
     }
 
