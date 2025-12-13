@@ -41,10 +41,12 @@ function Checklist({ checklistId }) {
             a.title.localeCompare(b.title)
         );
 
-        const checkedIds = Object.keys(checkedItems).map((item) => +item);
+        const checkedItemsIds = Object.keys(checkedItems)
+            .map((item) => +item)
+            .filter((itemId) => checkedItems[itemId]);
 
         const filtered = sorted.filter(
-            (item) => !checkedIds.includes(+item.id)
+            (item) => !checkedItemsIds.includes(+item.id)
         );
         return showAll ? sorted : filtered;
     }
