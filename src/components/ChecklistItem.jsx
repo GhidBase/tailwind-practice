@@ -18,6 +18,7 @@ function ChecklistItem({
             <div className="flex w-full">
                 <label className="flex flex-1">
                     <input
+                        className="accent-neutral-200 bg-neutral-200"
                         id={"checkbox-" + title}
                         name={"checkbox" + title}
                         type="checkbox"

@@ -52,21 +52,23 @@ function Checklist({ checklistId }) {
     }
 
     return (
-        <div id={"checklist-" + checklistId} className="flex flex-col gap-2">
-            <p className="">
-                Checklist -{" "}
-                {
-                    Object.values(checkedItems).filter((checked) => checked)
-                        .length
-                }
-                /{checklistItems.length} Fleas
-            </p>
-            <button
-                onClick={() => toggleShowAll()}
-                className="self-center text-amber-50 bg-neutral-600 rounded px-2 py-0.5"
-            >
-                {showAll ? "Show Remaining" : "Show All"}
-            </button>
+        <div id={"checklist-" + checklistId} className="flex flex-col">
+            <div className="sticky top-0 bg-[#242424] flex justify-between px-4 py-2 items-center">
+                <p className="">
+                    Checklist -{" "}
+                    {
+                        Object.values(checkedItems).filter((checked) => checked)
+                            .length
+                    }
+                    /{checklistItems.length} Fleas
+                </p>
+                <button
+                    onClick={() => toggleShowAll()}
+                    className="self-center text-amber-50 bg-neutral-600 rounded px-2 py-0.5"
+                >
+                    {showAll ? "Show Remaining" : "Show All"}
+                </button>
+            </div>
             <ul className="w-full px-4 flex flex-col gap-4">
                 {filterAndSortChecklist().map((item) => {
                     return (
