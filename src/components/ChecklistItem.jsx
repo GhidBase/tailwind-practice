@@ -21,16 +21,15 @@ function ChecklistItem({
         >
             <div
                 style={{
-                    backgroundImage: !picsVisible
-                        ? `url(${inGameUrl})`
-                        : undefined,
+                    backgroundImage: `url(${inGameUrl})`,
                 }}
-                className={`bg-cover bg-center text-white bg-neutral-900 shadow-black transition-all duration-400 ${
+                className={`bg-no-repeat text-white bg-neutral-900 shadow-black transition-all duration-400 ${
                     hide && "delay-100"
                 } box-border w-full rounded-md px-2 min-h-0 overflow-hidden flex flex-col gap-2 ${
                     (hide && "h-0 py-0 shadow-none") ||
-                    (!picsVisible && "h-11 py-2 mb-4 shadow-md") ||
-                    "h-110 py-2 mb-4 shadow-md"
+                    (!picsVisible &&
+                        "h-11 py-2 mb-4 shadow-md bg-cover bg-center") ||
+                    "h-110 py-2 mb-4 shadow-md bg-[position:center_100%]"
                 }`}
             >
                 {/* Header - Checkbox, Title, and Button */}
@@ -44,11 +43,13 @@ function ChecklistItem({
                             checked={checkedItems.includes(id)}
                             onChange={() => toggleItem(id)}
                         />
-                        <p className="flex px-2 rounded-lg flex-1 items-center ml-2 bg-black/20">{title}</p>
+                        <p className="flex px-2 rounded-lg flex-1 items-center ml-2 bg-black/20">
+                            {title}
+                        </p>
                     </label>
                     <button
                         onClick={() => setPicsVisible(!picsVisible)}
-                        className="text-amber-50 bg-neutral-600 rounded px-2 py-0.5 ml-auto"
+                        className="text-amber-50 bg-neutral-600 rounded px-2 py-0.5 ml-auto w-16"
                     >
                         {(picsVisible && "Hide") || "Show"}
                     </button>

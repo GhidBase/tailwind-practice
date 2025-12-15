@@ -11,7 +11,6 @@ function Checklist({ checklistId }) {
     const [checklistItems, setChecklistItems] = useState([]);
     const [showAll, setShowAll] = useState(() => {
         const stored = localStorage.getItem("showAll");
-        console.log(typeof stored);
         return stored == "true";
     });
 
@@ -73,7 +72,9 @@ function Checklist({ checklistId }) {
                 </p>
                 <button
                     onClick={() => toggleShowAll()}
-                    className="self-center text-amber-50 bg-neutral-600 rounded px-2 py-0.5"
+                    className={`self-center text-amber-50 bg-neutral-600 rounded px-2 py-0.5 transition-all overflow-hidden text-nowrap ${
+                        showAll ? "w-40" : "w-30"
+                    }`}
                 >
                     {showAll ? "Show Remaining" : "Show All"}
                 </button>
