@@ -68,7 +68,7 @@ function Checklist({ checklistId }) {
                 </p>
                 <button
                     onClick={() => toggleShowAll()}
-                    className="self-center text-amber-50 bg-slate-600 rounded px-2 py-0.5"
+                    className="self-center text-amber-50 bg-neutral-600 rounded px-2 py-0.5"
                 >
                     {showAll ? "Show Remaining" : "Show All"}
                 </button>
