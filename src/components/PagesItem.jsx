@@ -26,7 +26,7 @@ export default function PagesItem({
             {!editMode && <p>{page.title}</p>}
             {editMode && (
                 <input
-                    className="bg-neutral-200 min-w-0 text-black px-2 box-border rounded flex-1 max-w-100 mr-2"
+                    className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded flex-1 max-w-100 mr-2"
                     type="text"
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}

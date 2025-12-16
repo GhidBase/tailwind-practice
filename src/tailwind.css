@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+:root {
+    /* Theme Colors */
+    --red-brown: #794e3b; /* Primary Color */
+    --khaki-brown: #845744; /* Used in the repeating bg-pattern */
+    --accent: #f0e3c3; /* Used as a secondary surface */
+    --accent-transparent: #44403575; /* Used on the pop-up bg cover */
+    --surface-background: #d1bc9f; /* Used as a main surface */
+    --outline-brown: #352b22; /* Main outline color */
+
+    /* Colors for easy modification */
+    --primary: var(--red-brown);
+    --secondary: var(--khaki-brown);
+    --text-color: #604f45;
+    --outline: var(--outline-brown);
+    --footer-color: #8c7b6b;
+    --accent-text: #3a2a1a;
+
+}
+
+.custom-background {
+    background: repeating-linear-gradient(
+        to right,
+        var(--primary),
+        var(--primary) 50px,
+        var(--secondary) 50px,
+        var(--secondary) 100px
+    );
+}

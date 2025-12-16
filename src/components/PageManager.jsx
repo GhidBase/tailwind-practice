@@ -84,8 +84,11 @@ export default function PageManager() {
 
     return (
         isAdmin && (
-            <div id="Page Manager" className="p-4">
-                <h1>Page Manager</h1>
+            <div
+                id="Page Manager"
+                className="p-4 bg-(--surface-background) text-(--text-color) h-200 rounded-xl shadow-2xl"
+            >
+                <h1 className="text-5xl" >Page Manager</h1>
 
                 <div className="mt-4 flex justify-between items-center mx-auto gap-2">
                     <h1>Pages:</h1>
@@ -94,9 +97,10 @@ export default function PageManager() {
                             type="text"
                             id="title"
                             name="title"
-                            className="bg-neutral-200 min-w-0 text-black px-2 box-border rounded ml-auto"
+                            className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded ml-auto"
                             onChange={(e) => setTitle(e.target.value)}
                             value={title}
+                            placeholder="Page Title"
                         />
                         <button
                             type="submit"
