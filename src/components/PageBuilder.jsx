@@ -52,6 +52,7 @@ export default function PageBuilder() {
                         <TextBlock
                             key={block.id}
                             deleteBlock={() => deleteBlock(block)}
+                            block={block}
                         />
                     );
                 })}
