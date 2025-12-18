@@ -108,7 +108,7 @@ export default function PageManager() {
                                 e.preventDefault();
                                 createPage(title);
                             }}
-                            className="text-amber-50 bg-neutral-600 w-38 rounded px-2 py-0.5"
+                            className="text-amber-50 bg-(--primary) w-38 rounded px-2 py-0.5"
                         >
                             Create Page
                         </button>

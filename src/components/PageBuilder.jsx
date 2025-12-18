@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import TextBlock from "./blocks/TextBlock";
 import { useParams, Link } from "react-router";
 
 export default function PageBuilder() {
     const { pageId } = useParams();
     const [blocks, setBlocks] = useState([]);
+    const [adminMode] = useState(true);
+    const [pageData, setPageData] = useState({});
 
     useEffect(() => {
         fetch("http://localhost:3000/pages/" + pageId)
             .then((response) => response.json())
-            .then((result) => setBlocks(result));
+            .then((result) => {
+                setBlocks(result.blocks);
+                setPageData(result.page);
+            });
     }, [pageId]);
 
     async function addBlock() {
@@ -65,26 +70,50 @@ export default function PageBuilder() {
     }
 
     return (
-        <div className="overflow-x-auto w-full flex justify-center">
-            <div className="flex flex-col items-center gap-4 w-full p-4 max-w-230">
-                {blocks.map((block) => {
-                    // block values: id, pageId, content
-                    return (
-                        <TextBlock
-                            key={block.id}
-                            deleteBlock={() => deleteBlock(block)}
-                            block={block}
-                            updateBlock={updateBlock}
-                        />
-                    );
-                })}
-                <button
-                    className="text-amber-50 bg-neutral-600 w-25 rounded px-2 py-0.5"
-                    onClick={() => addBlock()}
+        <div
+            id="page-builder"
+            className="overflow-x-auto h-full w-full flex flex-col items-center justify-baseline"
+        >
+            <div id="page-builder-title" className="title">
+                {pageData.title}
+            </div>
+            <div
+                id="page-builder-blocks-container"
+                className="bg-(--surface-background) flex flex-1 flex-col items-center gap-4 w-full p-4 border-t-4 border-(--outline)"
+            >
+                <div
+                    id="page-builder-content-positioner"
+                    className="max-w-230 w-full mt-5"
                 >
-                    Add Block
-                </button>
-                <Link to={"/page-manager/"}>Back to Page Manager</Link>
+                    {blocks.map((block) => {
+                        // block values: id, pageId, content
+                        return (
+                            <TextBlock
+                                key={block.id}
+                                deleteBlock={() => deleteBlock(block)}
+                                block={block}
+                                updateBlock={updateBlock}
+                                adminMode={adminMode}
+                            />
+                        );
+                    })}
+                    {adminMode && (
+                        <div className="flex flex-col items-center gap-2">
+                            <button
+                                className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5"
+                                onClick={() => addBlock()}
+                            >
+                                Add Block
+                            </button>
+                            <Link
+                                className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
+                                to={"/page-manager/"}
+                            >
+                                Back to Page Manager
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

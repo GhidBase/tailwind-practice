@@ -5,6 +5,8 @@ body .tox-tinymce {
     border: none;
     background-color: var(--surface-background);
     /* background-color: var(--primary); */
+    border: 3px solid rgb(from var(--primary) r g b / 70%);
+    border-radius: .75rem;
 }
 
 /* Toolbar background */
@@ -12,7 +14,10 @@ body #root .tox-editor-header,
 body #root .tox-toolbar-overlord,
 body #root .tox-toolbar__primary {
     background-color: transparent;
-    border-bottom: 1px solid black;
+}
+
+body #root .tox-editor-header {
+    border-bottom: 1px solid var(--primary);
 }
 
 /* Toolbar buttons */
@@ -35,4 +40,22 @@ body #root .tox-toolbar__group button.tox-tbtn--enabled {
 .tox .tox-editor-container .tox-edit-area::before {
     border: 3px solid rgb(from var(--primary) r g b / 70%);
     border-radius: 0;
+}
+
+body #root .tox-tinymce {
+    opacity: 1;
+
+    animation-name: fadeIn;
+    animation-duration: 1500ms;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

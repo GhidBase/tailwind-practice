@@ -16,7 +16,6 @@
     --outline: var(--outline-brown);
     --footer-color: #8c7b6b;
     --accent-text: #3a2a1a;
-
 }
 
 .custom-background {
@@ -27,4 +26,17 @@
         var(--secondary) 50px,
         var(--secondary) 100px
     );
+}
+
+.title {
+    font-size: 80px;
+    color: white;
+    text-shadow: 2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black,
+        -2px -2px 0 black;
+    padding: 0 30px;
+    margin-top: 40px;
+    min-height: 100px;
+    margin-bottom: 40px;
+    text-align: center;
+    word-break: break-word;
 }

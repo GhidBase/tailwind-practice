@@ -5,7 +5,7 @@ import PageManager from "./PageManager";
 
 export default function Main() {
     return (
-        <div className="h-full flex flex-col overflow-hidden items-center custom-background place-content-center">
+        <div className="h-full box-border flex overflow-hidden items-center custom-background place-content-center">
             <Outlet />
         </div>
     );

@@ -34,7 +34,7 @@ export default function PagesItem({
                         onChange={(e) => setInputText(e.target.value)}
                     />
                     <button
-                        className="mr-2 ml-auto text-amber-50 bg-neutral-600 w-22 rounded px-2 py-0.5"
+                        className="mr-2 ml-auto text-amber-50 bg-(--primary) w-22 rounded px-2 py-0.5"
                         type="submit"
                         onClick={(e) => {
                             e.preventDefault();
@@ -48,7 +48,7 @@ export default function PagesItem({
             <button
                 className={`${
                     !editMode && "ml-auto"
-                } mr-2 text-amber-50 bg-neutral-600 w-22 rounded px-2 py-0.5`}
+                } mr-2 text-amber-50 bg-(--primary) w-22 rounded px-2 py-0.5`}
                 onClick={() => {
                     toggleEditMode();
                 }}
@@ -56,7 +56,7 @@ export default function PagesItem({
                 {(!editMode && "Rename") || "Cancel"}
             </button>
             <Link
-                className="text-amber-50 bg-neutral-600 w-22 mr-2 rounded px-2 py-0.5"
+                className="text-amber-50 bg-(--primary) w-22 mr-2 rounded px-2 py-0.5"
                 to={"/page-manager/" + page.id}
             >
                 Edit
@@ -68,7 +68,7 @@ export default function PagesItem({
                     newPages.splice(pageIndex, 1);
                     setPages(newPages);
                 }}
-                className="text-amber-50 bg-neutral-600 w-22 rounded px-2 py-0.5"
+                className="text-amber-50 bg-(--primary) w-22 rounded px-2 py-0.5"
             >
                 Delete
             </button>
