@@ -1,4 +1,5 @@
 import { Editor } from "@tinymce/tinymce-react";
+import "./css/textEditor.css";
 
 // TinyMCE so the global var exists
 import "tinymce/tinymce";
@@ -55,7 +56,13 @@ export default function BundledEditor(props) {
         <Editor
             licenseKey="gpl"
             {...props}
-            init={{ menubar: false, promotion: false, onboarding: false }}
+            init={{
+                menubar: false,
+                promotion: false,
+                onboarding: false,
+                statusbar: false,
+                content_css: "/editor-content.css",
+            }}
         />
     );
 }

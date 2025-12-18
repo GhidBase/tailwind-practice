@@ -3,7 +3,11 @@ import { useRef, useState } from "react";
 
 export default function TextBlock({ deleteBlock, block, updateBlock }) {
     const editorRef = useRef(null);
-    const [editMode, setEditMode] = useState(false);
+    const [editMode, setEditMode] = useState(true);
+    let content;
+    if (block && block.content && block.content.content) {
+        content = block.content.content;
+    }
 
     function log() {
         if (editorRef.current) {
@@ -39,13 +43,13 @@ export default function TextBlock({ deleteBlock, block, updateBlock }) {
             {editMode && (
                 <TextEditor
                     editorRef={editorRef}
-                    content={block.content.content}
+                    content={content}
                 ></TextEditor>
             )}
             {!editMode && (
                 <div
                     className="text-left mx-8 my-6"
-                    dangerouslySetInnerHTML={{ __html: block.content.content }}
+                    dangerouslySetInnerHTML={{ __html: content }}
                 />
             )}
             <div id="lower-buttons" className="flex gap-2 m-2 justify-center">

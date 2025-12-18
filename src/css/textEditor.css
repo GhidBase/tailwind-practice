@@ -1,0 +1,38 @@
+/* Editor outer container */
+body .tox-tinymce {
+    border-radius: 0.25rem 0.25rem 0 0;
+    /* border: 1px solid #444; */
+    border: none;
+    background-color: var(--surface-background);
+    /* background-color: var(--primary); */
+}
+
+/* Toolbar background */
+body #root .tox-editor-header,
+body #root .tox-toolbar-overlord,
+body #root .tox-toolbar__primary {
+    background-color: transparent;
+    border-bottom: 1px solid black;
+}
+
+/* Toolbar buttons */
+body #root .tox-toolbar__group button {
+    background-color: rgb(from var(--primary) r g b / 20%);
+    /* color: red; */
+}
+
+/* Toolbar hover colors */
+body #root .tox-toolbar__group button:hover {
+    background-color: rgb(from var(--primary) r g b / 60%);
+}
+
+/* The color of highlighted toolbar options */
+body #root .tox-toolbar__group button.tox-tbtn--enabled {
+    background-color: rgb(from var(--primary) r g b / 70%);
+}
+
+/* Kill TinyMCE focus ring (real source) */
+.tox .tox-editor-container .tox-edit-area::before {
+    border: 3px solid rgb(from var(--primary) r g b / 70%);
+    border-radius: 0;
+}
