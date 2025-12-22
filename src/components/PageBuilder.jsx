@@ -106,55 +106,50 @@ export default function PageBuilder() {
     return (
         <div
             id="page-builder"
-            className="overflow-x-auto h-full w-full flex flex-col items-center justify-baseline"
+            className="bg-(--surface-background) gap-4 grow p-4 flex flex-col flex-1 items-center "
         >
             <div
-                id="page-builder-blocks-container"
-                className="bg-(--surface-background) flex flex-1 flex-col items-center gap-4 w-full p-4"
+                id="page-builder-content-positioner"
+                className="max-w-230 w-full mt-5 flex flex-col grow"
             >
-                <div
-                    id="page-builder-content-positioner"
-                    className="max-w-230 w-full mt-5"
-                >
-                    {blocks
-                        .sort((a, b) => a.order - b.order)
-                        .map((block) => {
-                            // block values: id, pageId, content
-                            return (
-                                <TextBlock
-                                    key={block.id}
-                                    deleteBlock={() => deleteBlock(block)}
-                                    block={block}
-                                    updateBlock={updateBlock}
-                                    adminMode={adminMode}
-                                    addBlock={addBlock}
-                                />
-                            );
-                        })}
-                    {adminMode && (
-                        <div className="flex flex-col items-center gap-2 mt-2">
-                            <button
-                                className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
-                                onClick={() => addBlock()}
-                            >
-                                Add Block
-                            </button>
-                        </div>
-                    )}
-                    <div className="flex flex-col items-center mt-2 gap-2">
-                        <Link
-                            className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
-                            to={"/page-manager/"}
-                        >
-                            Back to Page Manager
-                        </Link>
+                {blocks
+                    .sort((a, b) => a.order - b.order)
+                    .map((block) => {
+                        // block values: id, pageId, content
+                        return (
+                            <TextBlock
+                                key={block.id}
+                                deleteBlock={() => deleteBlock(block)}
+                                block={block}
+                                updateBlock={updateBlock}
+                                adminMode={adminMode}
+                                addBlock={addBlock}
+                            />
+                        );
+                    })}
+                {adminMode && (
+                    <div className="flex flex-col items-center gap-2 mt-2">
                         <button
-                            className={`text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5`}
-                            onClick={() => setAdminMode(!adminMode)}
+                            className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
+                            onClick={() => addBlock()}
                         >
-                            Switch View
+                            Add Block
                         </button>
                     </div>
+                )}
+                <div className="flex flex-col items-center mt-2 gap-2">
+                    <Link
+                        className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
+                        to={"/page-manager/"}
+                    >
+                        Back to Page Manager
+                    </Link>
+                    <button
+                        className={`text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5`}
+                        onClick={() => setAdminMode(!adminMode)}
+                    >
+                        Switch View
+                    </button>
                 </div>
             </div>
         </div>

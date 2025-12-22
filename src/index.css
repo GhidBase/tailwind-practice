@@ -15,10 +15,6 @@
     height: 100dvh;
 }
 
-body {
-    height: 100%;
-}
-
 /* @import "tailwindcss"; */
 
 #root {

@@ -7,7 +7,7 @@ export default function Title() {
     return (
         <div
             id="page-builder-title"
-            className="title flex items-center justify-center custom-background"
+            className="title flex items-center justify-center"
         >
             {title}
         </div>
