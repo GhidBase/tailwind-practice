@@ -1,6 +1,7 @@
 import "../tailwind.css";
 import { Fragment, useEffect, useState } from "react";
 import PagesItem from "./PagesItem";
+import { usePage } from "../contexts/PageProvider";
 
 // http://localhost:3000/pages
 // https://guide-site-backend.onrender.com/pages/
@@ -8,9 +9,10 @@ import PagesItem from "./PagesItem";
 export default function PageManager() {
     const [pages, setPages] = useState([]);
     const [title, setTitle] = useState("");
+    const { currentAPI } = usePage();
 
     useEffect(() => {
-        fetch("http://localhost:3000/pages")
+        fetch(currentAPI + "/pages")
             .then((response) => response.json())
             .then((result) => setPages(result));
     }, []);
@@ -23,7 +25,7 @@ export default function PageManager() {
 
         let response;
         try {
-            response = await fetch("http://localhost:3000/pages", {
+            response = await fetch(currentAPI + "/pages", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title }),
@@ -56,7 +58,7 @@ export default function PageManager() {
             return;
         }
 
-        fetch("http://localhost:3000/pages/" + id, {
+        fetch(currentAPI + "/pages/" + id, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(),
@@ -69,7 +71,7 @@ export default function PageManager() {
             return;
         }
 
-        await fetch("http://localhost:3000/pages/" + id, {
+        await fetch(currentAPI + "/pages/" + id, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title }),

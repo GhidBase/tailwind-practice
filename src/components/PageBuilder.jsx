@@ -12,13 +12,13 @@ export default function PageBuilder() {
     const orders = blocks.map((block) => (block.order ? block.order : 0));
     const highestOrder = Math.max(...orders);
 
-    const { title, setTitle } = usePage();
+    const { title, setTitle, currentAPI } = usePage();
     if (title != pageData.title) {
         setTitle(pageData.title);
     }
 
     useEffect(() => {
-        fetch("http://localhost:3000/pages/" + pageId)
+        fetch(currentAPI + "/pages/" + pageId)
             .then((response) => response.json())
             .then((result) => {
                 setBlocks(result.blocks);
@@ -38,7 +38,7 @@ export default function PageBuilder() {
         }
 
         const response = await fetch(
-            "http://localhost:3000/pages/" + pageId + "/blocks",
+            currentAPI + "/pages/" + pageId + "/blocks",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ export default function PageBuilder() {
 
     async function shiftBlocks(order) {
         const response = await fetch(
-            "http://localhost:3000/pages/" + pageId + "/blocks",
+            currentAPI + "/pages/" + pageId + "/blocks",
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -72,14 +72,11 @@ export default function PageBuilder() {
     }
 
     async function deleteBlock(block) {
-        const response = await fetch(
-            "http://localhost:3000/blocks/" + block.id,
-            {
-                method: "DELETE",
-                // headers: { "Content-Type": "application/json" },
-                // body: JSON.stringify({}),
-            },
-        );
+        const response = await fetch(currentAPI + "/blocks/" + block.id, {
+            method: "DELETE",
+            // headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify({}),
+        });
 
         const deletedBlock = await response.json();
         const newBlocks = blocks.filter((block) => {
@@ -91,14 +88,11 @@ export default function PageBuilder() {
     async function updateBlock(block, editorRef) {
         const content = editorRef.current.getContent();
 
-        const response = await fetch(
-            "http://localhost:3000/blocks/" + block.id,
-            {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content }),
-            },
-        );
+        const response = await fetch(currentAPI + "/blocks/" + block.id, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content }),
+        });
 
         const result = await response.json();
         const newBlocks = [...blocks];

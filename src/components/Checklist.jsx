@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import "../tailwind.css";
 import ChecklistItem from "./ChecklistItem";
 import PlaceholderMenu from "./OutletMenu";
+import { usePage } from "../contexts/PageProvider";
 
 // IMPORTANT
 // Note that to use Checklist you need to give it a checklistId
 
 function Checklist({ checklistId }) {
+    const { currentAPI } = usePage();
     const [checkedItems, setCheckedItems] = useState(() => {
         const checkStored = JSON.parse(localStorage.getItem("checkedItems"));
         const stored = Array.isArray(checkStored) ? checkStored : [];
@@ -20,9 +22,7 @@ function Checklist({ checklistId }) {
 
     // Download the items
     useEffect(() => {
-        fetch(
-            "https://guide-site-backend.onrender.com/checklists/" + checklistId
-        )
+        fetch(currentAPI + "/checklists/" + checklistId)
             .then((response) => response.json())
             .then((result) => setChecklistItems(result));
     }, [checklistId]);
