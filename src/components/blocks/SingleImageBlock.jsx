@@ -1,42 +1,23 @@
-import TextEditor from "../TextEditor.jsx";
-import { useRef, useState } from "react";
+import { usePage } from "../../contexts/PageProvider";
+import { useState } from "react";
 
-export default function TextBlock({
+export default function SingleImageBlock({
     deleteBlock,
     block,
     updateBlock,
     adminMode,
     addBlock,
 }) {
-    const editorRef = useRef(null);
+    const { currentAPI } = usePage();
     const [editMode, setEditMode] = useState(false);
-    let content;
-    if (block && block.content && block.content.content) {
-        content = block.content.content;
-    }
-
-    function toggleEditorMode() {
-        setEditMode(!editMode);
-    }
 
     return (
-        <div
-            className={`content-block bg-(--surface-background) w-full text-(--text-color) ${
-                adminMode && "border-b border-(--primary) mb-4"
-            }`}
-        >
-            {editMode && (
-                <TextEditor
-                    editorRef={editorRef}
-                    content={content}
-                ></TextEditor>
-            )}
-            {!editMode && (
-                <div
-                    className="text-left mx-8"
-                    dangerouslySetInnerHTML={{ __html: content }}
-                />
-            )}
+        <div className="">
+            <form action="/upload" method="post" encType="multipart/form-data">
+                <input type="hidden" name="id" value="<%= folder.id %>" />
+                <input type="file" name="upload-file" />
+                <button type="submit">Upload</button>
+            </form>
             {adminMode && (
                 <div
                     id="lower-buttons"

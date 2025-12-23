@@ -3,7 +3,6 @@ import { usePage } from "../contexts/PageProvider";
 export default function Title() {
     const { title, setTitle } = usePage();
 
-    console.log(title);
     return (
         <div
             id="page-builder-title"

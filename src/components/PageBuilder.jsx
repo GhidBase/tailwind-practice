@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import TextBlock from "./blocks/TextBlock";
 import { useParams, Link } from "react-router";
 import { usePage } from "../contexts/PageProvider";
+import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder() {
     const { pageId } = useParams();
@@ -30,7 +31,7 @@ export default function PageBuilder() {
         return blocks.find((block) => block.order == order) != undefined;
     }
 
-    async function addBlock(nextOrder = highestOrder + 1) {
+    async function addBlock({ nextOrder = highestOrder + 1, type } = {}) {
         const orderTaken = isOrderTaken(nextOrder);
 
         if (orderTaken) {
@@ -42,7 +43,7 @@ export default function PageBuilder() {
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ order: nextOrder }),
+                body: JSON.stringify({ order: nextOrder, type }),
             },
         );
         const newBlock = await response.json();
@@ -116,16 +117,33 @@ export default function PageBuilder() {
                     .sort((a, b) => a.order - b.order)
                     .map((block) => {
                         // block values: id, pageId, content
-                        return (
-                            <TextBlock
-                                key={block.id}
-                                deleteBlock={() => deleteBlock(block)}
-                                block={block}
-                                updateBlock={updateBlock}
-                                adminMode={adminMode}
-                                addBlock={addBlock}
-                            />
-                        );
+                        let blockType;
+                        switch (block.type) {
+                            case null:
+                                blockType = (
+                                    <TextBlock
+                                        key={block.id}
+                                        deleteBlock={() => deleteBlock(block)}
+                                        block={block}
+                                        updateBlock={updateBlock}
+                                        adminMode={adminMode}
+                                        addBlock={addBlock}
+                                    />
+                                );
+                                break;
+                            default:
+                                blockType = (
+                                    <SingleImageBlock
+                                        key={block.id}
+                                        deleteBlock={() => deleteBlock(block)}
+                                        block={block}
+                                        updateBlock={updateBlock}
+                                        adminMode={adminMode}
+                                        addBlock={addBlock}
+                                    />
+                                );
+                        }
+                        return blockType;
                     })}
                 {adminMode && (
                     <div className="flex flex-col items-center gap-2 mt-2">
@@ -133,7 +151,13 @@ export default function PageBuilder() {
                             className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
                             onClick={() => addBlock()}
                         >
-                            Add Block
+                            + Text Block
+                        </button>
+                        <button
+                            className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
+                            onClick={() => addBlock({ type: "single-image" })}
+                        >
+                            + Single Img
                         </button>
                     </div>
                 )}
