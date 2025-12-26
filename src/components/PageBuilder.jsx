@@ -88,11 +88,12 @@ export default function PageBuilder() {
 
     async function updateBlock(block, editorRef) {
         const content = editorRef.current.getContent();
+        const content2 = block.content2;
 
         const response = await fetch(currentAPI + "/blocks/" + block.id, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content }),
+            body: JSON.stringify({ content, content2 }),
         });
 
         const result = await response.json();

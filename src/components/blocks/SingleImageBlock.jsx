@@ -11,7 +11,10 @@ export default function SingleImageBlock({
     async function uploadFile(e) {
         e.preventDefault();
 
+        // Upload a file to amazon
         const formData = new FormData(e.target);
+        const blockId = block;
+        formData.append("block", JSON.stringify(block));
         const response = await fetch(currentAPI + "/files", {
             method: "POST",
             body: formData,
@@ -20,11 +23,15 @@ export default function SingleImageBlock({
             console.error("upload failed");
             return;
         }
+        const fileData = await response.json();
+
+        // Create a file record in the database
         e.target.reset();
     }
 
     const { currentAPI } = usePage();
     const [editMode, setEditMode] = useState(false);
+    console.log(block.files[0]);
 
     return (
         <div className="">
@@ -34,6 +41,7 @@ export default function SingleImageBlock({
                 method="post"
                 encType="multipart/form-data"
             >
+                <img src={!!block.files[0] && block.files[0].url} alt="" />
                 <input type="hidden" name="id" value="<%= folder.id %>" />
                 <input type="file" name="upload-file" />
                 <button type="submit">Upload</button>
