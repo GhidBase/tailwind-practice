@@ -5,6 +5,7 @@ import { usePage } from "../contexts/PageProvider";
 import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder() {
+    console.clear()
     const { pageId } = useParams();
     const [blocks, setBlocks] = useState([]);
     const [adminMode, setAdminMode] = useState(true);
