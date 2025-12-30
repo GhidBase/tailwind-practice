@@ -5,7 +5,6 @@ import { usePage } from "../contexts/PageProvider";
 import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder() {
-    console.clear()
     const { pageId } = useParams();
     const [blocks, setBlocks] = useState([]);
     const [adminMode, setAdminMode] = useState(true);
@@ -87,7 +86,7 @@ export default function PageBuilder() {
         setBlocks(newBlocks);
     }
 
-    async function updateBlock(block, editorRef) {
+    async function updateBlockWithEditorData(block, editorRef) {
         const content = editorRef.current.getContent();
         const content2 = block.content2;
 
@@ -96,6 +95,18 @@ export default function PageBuilder() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ content, content2 }),
         });
+
+        const result = await response.json();
+        const newBlocks = [...blocks];
+        const adjustIndex = newBlocks.findIndex(
+            (block) => block.id == result.id,
+        );
+        newBlocks[adjustIndex] = result;
+        setBlocks(newBlocks);
+    }
+
+    async function refreshBlock(id) {
+        const response = await fetch(currentAPI + "/blocks/" + id);
 
         const result = await response.json();
         const newBlocks = [...blocks];
@@ -127,7 +138,9 @@ export default function PageBuilder() {
                                         key={block.id}
                                         deleteBlock={() => deleteBlock(block)}
                                         block={block}
-                                        updateBlock={updateBlock}
+                                        updateBlockWithEditorData={
+                                            updateBlockWithEditorData
+                                        }
                                         adminMode={adminMode}
                                         addBlock={addBlock}
                                     />
@@ -139,7 +152,7 @@ export default function PageBuilder() {
                                         key={block.id}
                                         deleteBlock={() => deleteBlock(block)}
                                         block={block}
-                                        updateBlock={updateBlock}
+                                        refreshBlock={refreshBlock}
                                         adminMode={adminMode}
                                         addBlock={addBlock}
                                     />

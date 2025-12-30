@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 export default function TextBlock({
     deleteBlock,
     block,
-    updateBlock,
+    updateBlockWithEditorData,
     adminMode,
     addBlock,
 }) {
@@ -45,7 +45,10 @@ export default function TextBlock({
                     {editMode && (
                         <button
                             onClick={async () => {
-                                await updateBlock(block, editorRef);
+                                await updateBlockWithEditorData(
+                                    block,
+                                    editorRef,
+                                );
                                 toggleEditorMode();
                             }}
                             className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5"

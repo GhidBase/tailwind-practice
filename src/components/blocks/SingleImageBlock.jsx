@@ -4,7 +4,7 @@ import { useState, Fragment } from "react";
 export default function SingleImageBlock({
     deleteBlock,
     block,
-    updateBlock,
+    refreshBlock,
     adminMode,
     addBlock,
 }) {
@@ -13,19 +13,29 @@ export default function SingleImageBlock({
 
         // Upload a file to amazon
         const formData = new FormData(e.target);
-        formData.append("block", JSON.stringify(block));
-        const response = await fetch(currentAPI + "/files", {
-            method: "POST",
-            body: formData,
-        });
+        const response = await fetch(
+            currentAPI + "/blocks/" + block.id + "/files",
+            {
+                method: "POST",
+                body: formData,
+            },
+        );
         if (!response.ok) {
             console.error("upload failed");
             return;
         }
-        const fileData = await response.json();
 
-        // Create a file record in the database
         e.target.reset();
+        setStagedFiles(["No File Chosen"]);
+        refreshBlock(block.id);
+    }
+
+    async function deleteFileById(id) {
+        const response = await fetch(currentAPI + "/files/" + id, {
+            method: "Delete",
+        });
+        const result = await response.json();
+        refreshBlock(block.id);
     }
 
     async function deleteFile(number) {
@@ -37,7 +47,6 @@ export default function SingleImageBlock({
     }
 
     const { currentAPI } = usePage();
-    const [editMode, setEditMode] = useState(false);
     const [stagedFiles, setStagedFiles] = useState(["No File Chosen"]);
     const blockHasFiles = !!block.files;
 
@@ -55,33 +64,46 @@ export default function SingleImageBlock({
     let showFileText =
         imgUrls[0] == undefined || stagedFiles[0] != "No File Chosen";
 
-    // console.log(block.files[0].filename);
-
     return (
         <div className="text-(--text-color)">
-            {blockHasFiles && !!imgUrls[0] && (
-                <img
-                    id={"photo-img-" + block.id}
-                    src={imgUrls[0]}
-                    alt=""
-                    className="max-h-80 mx-auto"
-                />
-            )}
+            <div className="flex">
+                {block.files &&
+                    block.files.map((file) => {
+                        return (
+                            <div
+                                id={file.id}
+                                key={file.id}
+                                className="w-full my-2"
+                            >
+                                <img
+                                    id={"photo-img-" + file.id}
+                                    src={file.url}
+                                    alt=""
+                                    className="max-h-80 mx-auto"
+                                />
+                                <button
+                                    className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5 h-7"
+                                    onClick={() => deleteFileById(file.id)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        );
+                    })}
+            </div>
             {adminMode && (
                 <Fragment>
                     <form
                         onSubmit={uploadFile}
-                        // action={currentAPI + "/files"}
                         method="post"
                         encType="multipart/form-data"
                         className="flex flex-col"
                     >
-                        {/* imgUrls[0] != undefined && stagedFiles[0] */}
                         {showFileText && <p>{stagedFiles[0]}</p>}
                         <div className="flex justify-center gap-2">
                             <label
                                 className="text-amber-50 bg-(--primary) rounded px-2 py-0.5 h-7"
-                                htmlFor={"upload-file"}
+                                htmlFor={"upload-file" + block.id}
                             >
                                 Choose a file
                             </label>
@@ -92,8 +114,8 @@ export default function SingleImageBlock({
                             />
                             <input
                                 type="file"
-                                name={"upload-file"}
-                                id={"upload-file"}
+                                name={"upload-file" + block.id}
+                                id={"upload-file" + block.id}
                                 className="hidden"
                                 onChange={(e) => {
                                     const file = e.target.files?.[0];
@@ -116,24 +138,8 @@ export default function SingleImageBlock({
                         id="lower-buttons"
                         className="flex gap-2 m-2 justify-center"
                     >
-                        {editMode && (
-                            <button
-                                onClick={async () => {
-                                    await updateBlock(block, editorRef);
-                                    toggleEditorMode();
-                                }}
-                                className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5"
-                            >
-                                Save
-                            </button>
-                        )}
-                        <button
-                            onClick={() => toggleEditorMode()}
-                            className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5"
-                        >
-                            {!editMode && "Edit"}
-                            {editMode && "Cancel"}
-                        </button>
+                        
+                        
                         <button
                             onClick={() => deleteFile(0)}
                             className="text-amber-50 bg-(--primary) w-25 rounded px-2 py-0.5"
