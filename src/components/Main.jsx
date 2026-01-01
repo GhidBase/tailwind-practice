@@ -2,24 +2,31 @@ import "../tailwind.css";
 import { Outlet } from "react-router";
 import Navbar from "./navbar/Navbar.jsx";
 import Title from "./Title.jsx";
-import { PageProvider } from "../contexts/PageProvider.jsx";
 
 export default function Main() {
     return (
-        <PageProvider>
+        <div
+            id="main-page-sections"
+            className="h-full w-full flex flex-col grow box-border custom-background"
+        >
+            <Title></Title>
             <div
-                id="main-page-sections"
-                className="h-full w-full flex flex-col grow box-border custom-background"
+                id="side-bar-and-content"
+                className="w-full box-border border-t-4 border-(--outline) flex flex-1"
             >
-                <Title></Title>
+                <Navbar></Navbar>
                 <div
-                    id="side-bar-and-content"
-                    className="w-full box-border border-t-4 border-(--outline) flex flex-1"
+                    id="page-builder"
+                    className="bg-(--surface-background) gap-4 p-4 flex flex-col flex-1 items-center pr-60"
                 >
-                    <Navbar></Navbar>
-                    <Outlet />
+                    <div
+                        id="content-positioner"
+                        className={`max-w-230 w-full mt-5 flex flex-col grow text-(--text-color)  ${true && "gap-2"}`}
+                    >
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-        </PageProvider>
+        </div>
     );
 }

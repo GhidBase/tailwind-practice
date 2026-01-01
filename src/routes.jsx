@@ -1,6 +1,4 @@
 import Checklist from "./components/Checklist";
-import PlaceholderMenu from "./components/OutletMenu";
-import Page from "./components/Page";
 import Main from "./components/Main";
 import PageManager from "./components/PageManager";
 import PageBuilder from "./components/PageBuilder";

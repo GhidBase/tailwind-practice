@@ -1,9 +1,12 @@
 import NavbarButton from "./NavbarButton";
 
 const navbar = [
-    { id: 1, slug: "/page-manager/46", title: "Stun Guide" },
-    { id: 2, slug: "/page-manager/47", title: "Defense Reduction" },
-    { id: 3, slug: "/page-manager/48", title: "Homepage" },
+    {
+        id: 1,
+        slug: "/page-manager",
+        pageTitle: "Page Manager",
+        navbarTitle: "Page Manager",
+    },
 ];
 
 export default function Navbar() {
@@ -16,7 +19,8 @@ export default function Navbar() {
                 return (
                     <NavbarButton
                         slug={item.slug}
-                        title={item.title}
+                        pageTitle={item.pageTitle}
+                        navbarTitle={item.navbarTitle}
                         key={item.id}
                     />
                 );

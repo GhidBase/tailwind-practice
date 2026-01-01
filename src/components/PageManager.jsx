@@ -3,13 +3,16 @@ import { Fragment, useEffect, useState } from "react";
 import PagesItem from "./PagesItem";
 import { usePage } from "../contexts/PageProvider";
 
-// http://localhost:3000/pages
-// https://guide-site-backend.onrender.com/pages/
+// title refers to the title input field
+// setTitleInput updates that field
+// setTitle updates the title of the page at the top
+// of the ui to ("Page Manager")
 
 export default function PageManager() {
     const [pages, setPages] = useState([]);
-    const [title, setTitle] = useState("");
-    const { currentAPI } = usePage();
+    const [title, setTitleInput] = useState("");
+    const { currentAPI, setTitle } = usePage();
+    setTitle("Page Manager");
 
     useEffect(() => {
         fetch(currentAPI + "/pages")
@@ -49,7 +52,7 @@ export default function PageManager() {
         const newPages = [...pages];
         newPages.push(newPage);
         setPages(newPages);
-        setTitle("");
+        setTitleInput("");
     }
 
     function deletePage(id) {
@@ -86,21 +89,16 @@ export default function PageManager() {
 
     return (
         isAdmin && (
-            <div
-                id="Page Manager"
-                className="p-4 bg-(--surface-background) max-w-230 w-full text-(--text-color) h-200 rounded-xl shadow-2xl"
-            >
-                <h1 className="text-5xl">Page Manager</h1>
-
+            <Fragment>
                 <div className="mt-4 flex justify-between items-center mx-auto gap-2">
-                    <h1>Pages:</h1>
+                    <h1 className="">Pages:</h1>
                     <form action="" className="flex gap-2">
                         <input
                             type="text"
                             id="title"
                             name="title"
                             className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded ml-auto"
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) => setTitleInput(e.target.value)}
                             value={title}
                             placeholder="Page Title"
                         />
@@ -131,7 +129,7 @@ export default function PageManager() {
                         );
                     })}
                 </ul>
-            </div>
+            </Fragment>
         )
     );
 }
