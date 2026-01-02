@@ -19,7 +19,7 @@ export default function Main() {
                 ></Navbar>
                 <div
                     id="page-outer-bounds"
-                    className={`gap-4 sm:px-4 sm:pb-4 flex flex-col w-full max-w-230 mx-auto`}
+                    className={`gap-4 sm:px-4 sm:pb-4 flex flex-col w-full max-w-230 mx-auto text-(--text-color)`}
                 >
                     <Outlet />
                 </div>

@@ -28,7 +28,7 @@ export default function PagesItem({
       {editMode && (
         <form action="" className="w-full flex">
           <input
-            className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded flex-1 max-w-100 mr-2"
+            className="bg-(--red-brown) min-w-0 px-2 box-border rounded flex-1 max-w-100 mr-2"
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
