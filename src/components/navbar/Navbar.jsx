@@ -180,8 +180,8 @@ export default function Navbar({
                                 className={`
                                     w-full h-20
                                     flex items-center justify-center
-                                    lg:h-15
-                                    ${index < arr.length - 1 && "border-b-4 border-(--outline)"}`}
+                                    lg:h-15 lg:border-b-4 border-(--outline)
+                                    ${index < arr.length - 1 && "border-b-4"}`}
                             />
                         );
                     }
@@ -195,8 +195,8 @@ export default function Navbar({
                                     w-full h-15
                                     text-2xl font-bold underline
                                     flex items-center justify-center
-                                    bg-(--surface-background) text-(--text-color)
-                                    ${index < arr.length - 1 && "border-b-4 border-(--outline)"}`}
+                                    bg-(--surface-background) text-(--text-color) lg:border-b-4 border-(--outline)
+                                    ${index < arr.length - 1 && "border-b-4"}`}
                             />
                         );
                     }
