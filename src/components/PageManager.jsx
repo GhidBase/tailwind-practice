@@ -90,8 +90,8 @@ export default function PageManager() {
     return (
         <Fragment>
             <div className="mt-4 flex justify-between items-center mx-auto gap-2">
-                <h1 className="">Pages:</h1>
-                <form action="" className="flex gap-2">
+                <form action="" className="flex gap-2 items-center">
+                    <h1 className="">Pages:</h1>
                     <input
                         type="text"
                         id="title"
