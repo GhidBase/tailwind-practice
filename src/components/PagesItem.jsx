@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { Link } from "react-router";
 
 export default function PagesItem({
@@ -8,23 +8,33 @@ export default function PagesItem({
     deletePage,
     pages,
     updatePageTitle,
+    updatePageSlug,
 }) {
     const [inputText, setInputText] = useState("");
+    const [slugInputText, setSlugInputText] = useState("");
     const [editMode, setEditMode] = useState(false);
+    const slug = page.slug;
 
     function toggleEditMode() {
         setInputText(page.title);
+        setSlugInputText(page.slug);
         setEditMode(!editMode);
     }
 
-    async function updatePageItem(pageId, inputText) {
+    async function updatePageItem(pageId) {
         await updatePageTitle(pageId, inputText, pageIndex);
+        await updatePageSlug(pageId, slugInputText, pageIndex);
         toggleEditMode();
     }
 
     return (
         <li className="mt-4 w-full flex items-center" key={page.id}>
-            {!editMode && <p>{page.title}</p>}
+            {!editMode && (
+                <div className="flex justify-between w-full px-2">
+                    <p>{page.title}</p>
+                    <p>{"ldg.com/" + slug}</p>
+                </div>
+            )}
             {editMode && (
                 <form action="" className="w-full flex">
                     <input
@@ -33,12 +43,18 @@ export default function PagesItem({
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                     />
+                    <input
+                        className="bg-(--red-brown) min-w-0 px-2 text-white box-border rounded flex-1 max-w-100 mr-2"
+                        type="text"
+                        value={slugInputText}
+                        onChange={(e) => setSlugInputText(e.target.value)}
+                    />
                     <button
                         className="mr-2 ml-auto text-amber-50 bg-(--primary) w-22 rounded px-2 py-0.5"
                         type="submit"
                         onClick={(e) => {
                             e.preventDefault();
-                            updatePageItem(page.id, inputText);
+                            updatePageItem(page.id);
                         }}
                     >
                         Save

@@ -8,7 +8,7 @@ import { usePage } from "../contexts/PageProvider";
 // setTitle updates the title of the page at the top
 // of the ui to ("Page Manager")
 
-export default function PageManager() {
+export default function PageManager({ isAdmin }) {
     const [pages, setPages] = useState([]);
     const [title, setTitleInput] = useState("");
     const { currentAPI, setTitle } = usePage();
@@ -85,7 +85,22 @@ export default function PageManager() {
         setPages(newPages);
     }
 
-    const isAdmin = true;
+    async function updatePageSlug(id, slug, index) {
+        if (!+id) {
+            console.log("Error - Invalid ID " + +id);
+            return;
+        }
+
+        await fetch(currentAPI + "/pages/" + id, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slug }),
+        });
+
+        const newPages = [...pages];
+        newPages[index].slug = slug;
+        setPages(newPages);
+    }
 
     return (
         <Fragment>
@@ -124,6 +139,7 @@ export default function PageManager() {
                             setPages={setPages}
                             deletePage={deletePage}
                             updatePageTitle={updatePageTitle}
+                            updatePageSlug={updatePageSlug}
                         />
                     );
                 })}

@@ -9,6 +9,7 @@ const routes = [
         path: "/",
         element: <Main />,
         children: [
+            { path: ":pageTitle", element: <PageBuilder /> },
             { path: "flea-guide/", element: <Checklist checklistId={1} /> },
             { path: "page-manager/:pageId", element: <PageBuilder /> },
             { path: "page-manager/", element: <PageManager isAdmin={true} /> },

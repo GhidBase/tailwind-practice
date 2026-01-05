@@ -5,7 +5,8 @@ import { usePage } from "../contexts/PageProvider";
 import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder({ className }) {
-    const { pageId } = useParams();
+    const { pageId, pageTitle } = useParams();
+
     const [blocks, setBlocks] = useState([]);
     const [adminMode, setAdminMode] = useState(false);
     const [pageData, setPageData] = useState({});
@@ -19,13 +20,16 @@ export default function PageBuilder({ className }) {
     }
 
     useEffect(() => {
-        fetch(currentAPI + "/pages/" + pageId)
+        const type = pageId ? "id" : "title";
+        const pageInput = pageId ? pageId : pageTitle;
+        console.log(pageInput);
+        fetch(currentAPI + "/pages/" + pageInput + "?type=" + type)
             .then((response) => response.json())
             .then((result) => {
                 setBlocks(result.blocks);
                 setPageData(result.page);
             });
-    }, [pageId]);
+    }, [pageId, pageTitle]);
 
     function isOrderTaken(order) {
         return blocks.find((block) => block.order == order) != undefined;

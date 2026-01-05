@@ -22,7 +22,7 @@ const navbar = [
     },
     {
         id: 3,
-        slug: "/page-manager/57",
+        slug: "/stun-guide",
         navbarTitle: "Stun Guide",
         type: "page",
     },
@@ -171,6 +171,7 @@ export default function Navbar({
         <Fragment>
             <div id="nav-bar" className={className}>
                 {navbar.map((item, index, arr) => {
+                    console.log(item);
                     if (item.type == "page") {
                         return (
                             <NavbarButton
@@ -188,7 +189,6 @@ export default function Navbar({
                     if (item.type == "section") {
                         return (
                             <NavbarSection
-                                slug="test"
                                 navbarTitle={item.navbarTitle}
                                 key={item.id}
                                 className={`
