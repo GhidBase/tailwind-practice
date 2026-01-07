@@ -8,7 +8,7 @@ import { usePage } from "../contexts/PageProvider";
 // setTitle updates the title of the page at the top
 // of the ui to ("Page Manager")
 
-export default function PageManager() {
+export default function PageManager({ isAdmin }) {
     const [pages, setPages] = useState([]);
     const [title, setTitleInput] = useState("");
     const { currentAPI, setTitle } = usePage();
@@ -85,51 +85,65 @@ export default function PageManager() {
         setPages(newPages);
     }
 
-    const isAdmin = true;
+    async function updatePageSlug(id, slug, index) {
+        if (!+id) {
+            console.log("Error - Invalid ID " + +id);
+            return;
+        }
+
+        await fetch(currentAPI + "/pages/" + id, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slug }),
+        });
+
+        const newPages = [...pages];
+        newPages[index].slug = slug;
+        setPages(newPages);
+    }
 
     return (
-        isAdmin && (
-            <Fragment>
-                <div className="mt-4 flex justify-between items-center mx-auto gap-2">
+        <Fragment>
+            <div className="mt-4 flex justify-between items-center mx-auto gap-2">
+                <form action="" className="flex gap-2 items-center">
                     <h1 className="">Pages:</h1>
-                    <form action="" className="flex gap-2">
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded ml-auto"
-                            onChange={(e) => setTitleInput(e.target.value)}
-                            value={title}
-                            placeholder="Page Title"
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        className="bg-(--red-brown) min-w-0 text-white px-2 box-border rounded ml-auto"
+                        onChange={(e) => setTitleInput(e.target.value)}
+                        value={title}
+                        placeholder="Page Title"
+                    />
+                    <button
+                        type="submit"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            createPage(title);
+                        }}
+                        className="text-amber-50 bg-(--primary) w-38 rounded px-2 py-0.5"
+                    >
+                        Create Page
+                    </button>
+                </form>
+            </div>
+            <ul className="">
+                {pages.map((page, pageIndex) => {
+                    return (
+                        <PagesItem
+                            key={page.id}
+                            pageIndex={pageIndex}
+                            page={page}
+                            pages={pages}
+                            setPages={setPages}
+                            deletePage={deletePage}
+                            updatePageTitle={updatePageTitle}
+                            updatePageSlug={updatePageSlug}
                         />
-                        <button
-                            type="submit"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                createPage(title);
-                            }}
-                            className="text-amber-50 bg-(--primary) w-38 rounded px-2 py-0.5"
-                        >
-                            Create Page
-                        </button>
-                    </form>
-                </div>
-                <ul className="">
-                    {pages.map((page, pageIndex) => {
-                        return (
-                            <PagesItem
-                                key={page.id}
-                                pageIndex={pageIndex}
-                                page={page}
-                                pages={pages}
-                                setPages={setPages}
-                                deletePage={deletePage}
-                                updatePageTitle={updatePageTitle}
-                            />
-                        );
-                    })}
-                </ul>
-            </Fragment>
-        )
+                    );
+                })}
+            </ul>
+        </Fragment>
     );
 }
