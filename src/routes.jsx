@@ -5,6 +5,7 @@ import PageBuilder from "./components/PageBuilder";
 import EditorExample from "./components/TextEditor";
 import oldRoutes from "./js/oldRoutes.jsx";
 import { Navigate } from "react-router";
+import NotFound from "./components/NotFound.jsx";
 
 const routes = [
     ...oldRoutes,
@@ -17,6 +18,7 @@ const routes = [
             { path: "page-manager/:pageId", element: <PageBuilder /> },
             { path: "page-manager/", element: <PageManager isAdmin={true} /> },
             { path: "editor-test/", element: <EditorExample /> },
+            { path: "404/", element: <NotFound /> },
             { path: "*", element: <PageBuilder /> },
         ],
     },

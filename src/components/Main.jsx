@@ -1,4 +1,5 @@
 import "../tailwind.css";
+import "../css/tables.css";
 import { Outlet } from "react-router";
 import Navbar from "./navbar/Navbar.jsx";
 import Title from "./Title.jsx";
@@ -8,8 +9,12 @@ import { useEffect, useState } from "react";
 export default function Main() {
     const [navOpen, setNavOpen] = useState(false);
 
-    function toggleNav() {
-        setNavOpen(!navOpen);
+    function toggleNav(state) {
+        if (state != undefined) {
+            setNavOpen(state);
+        } else {
+            setNavOpen(!navOpen);
+        }
     }
 
     function getScrollbarWidth() {
