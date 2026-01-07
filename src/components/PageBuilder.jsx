@@ -6,11 +6,12 @@ import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder({ className }) {
     const navigate = useNavigate();
-    const { pageId, pageTitle } = useParams();
+    const { pageTitle } = useParams();
 
     const [blocks, setBlocks] = useState([]);
     const [adminMode, setAdminMode] = useState(false);
     const [pageData, setPageData] = useState({});
+    const pageId = pageData.id;
     const orders = blocks.map((block) => (block.order ? block.order : 0));
     const highestOrder = Math.max(...orders);
 
@@ -19,24 +20,13 @@ export default function PageBuilder({ className }) {
         setTitle(pageData.title);
     }
 
-    // I need to make it so that if no page is found from the initial page
-    // search, then the page will redirect
-
     useEffect(() => {
-        const type = pageId ? "id" : "title";
-        const pageInput = pageId ? pageId : pageTitle;
         const gameId = 1;
         const homepage = "lucky-defense";
 
         async function loadPageByName(name) {
             const apiUrl =
-                currentAPI +
-                "/pages/" +
-                name +
-                "?type=" +
-                type +
-                "&gameId=" +
-                1;
+                currentAPI + "/pages/" + name + "?type=title&gameId=" + 1;
 
             const response = await fetch(apiUrl);
             const result = await response.json();
@@ -62,13 +52,7 @@ export default function PageBuilder({ className }) {
             const { slug, title } = resultGameData;
 
             const apiUrl =
-                currentAPI +
-                "/pages/" +
-                slug +
-                "?type=" +
-                type +
-                "&gameId=" +
-                1;
+                currentAPI + "/pages/" + slug + "?type=title&gameId=" + 1;
 
             const responsePageData = await fetch(apiUrl);
             const resultPageData = await responsePageData.json();
@@ -83,15 +67,9 @@ export default function PageBuilder({ className }) {
             }
         }
 
-        // I need to add an error check here
-        // Add an error page when there is no
-        // result
-
-        if (type == "title" && pageInput) {
-            // If the type is title and the title isn't empty
-            loadPageByName(pageInput);
-        } else if (type == "title" && !pageInput) {
-            // If the type is title and the title is empty
+        if (pageTitle) {
+            loadPageByName(pageTitle);
+        } else if (!pageTitle) {
             loadHomepage();
         }
     }, [pageId, pageTitle]);
