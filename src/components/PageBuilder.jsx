@@ -1,10 +1,11 @@
 import { useState, useEffect, Fragment } from "react";
 import TextBlock from "./blocks/TextBlock";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { usePage } from "../contexts/PageProvider";
 import SingleImageBlock from "./blocks/SingleImageBlock";
 
 export default function PageBuilder({ className }) {
+    const navigate = useNavigate();
     const { pageId, pageTitle } = useParams();
 
     const [blocks, setBlocks] = useState([]);
@@ -39,9 +40,15 @@ export default function PageBuilder({ className }) {
 
             const response = await fetch(apiUrl);
             const result = await response.json();
-            const { page, blocks } = result;
+            const { page, blocks, notFound } = result;
             if (page == null) {
                 console.log("Page is null");
+                if (notFound) {
+                    console.log(
+                        "Page null caused by 0 search results, display 404",
+                    );
+                }
+                navigate("/404", { replace: true });
             } else {
                 setBlocks(blocks);
                 setPageData(page);
@@ -69,6 +76,7 @@ export default function PageBuilder({ className }) {
             const { page, blocks } = resultPageData;
             if (page == null) {
                 console.log("Page is null");
+                console.log("homepage fail");
             } else {
                 setBlocks(blocks);
                 setPageData(page);
