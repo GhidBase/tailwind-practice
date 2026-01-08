@@ -57,6 +57,17 @@ const navbar = [
         type: "page",
     },
     {
+        id: 28,
+        navbarTitle: "General",
+        type: "section",
+    },
+    {
+        id: 27,
+        slug: "/guardian-upgrade-costs",
+        navbarTitle: "Guardian Upgrade Costs",
+        type: "page",
+    },
+    {
         id: 23,
         navbarTitle: "Hard Mode",
         type: "section",

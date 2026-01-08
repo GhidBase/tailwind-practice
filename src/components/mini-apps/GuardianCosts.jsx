@@ -417,8 +417,10 @@ export default function GuardianCosts() {
 
     return (
         <Fragment>
-            <div class="text-width">
-                <h2>Upgrade Costs</h2>
+            <div class="content-block self-center text-left px-4 w-full lg:px-10">
+                <h2>
+                    <u>Upgrade Costs</u>
+                </h2>
                 <p>
                     This is a list of all the upgrade costs for all units in the
                     game.
@@ -500,570 +502,598 @@ export default function GuardianCosts() {
                 {costMessage}
             </div>
 
-            <div class="rarity-tables">
-                <div class="rarity-table" id="mythic">
-                    <h2>Mythic (Short Version)</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level Range</th>
-                                <th>Mythic Stones</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 6</td>
-                                <td>115 stones</td>
-                                <td>23,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 12</td>
-                                <td>940 stones</td>
-                                <td>188,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 15</td>
-                                <td>1,100 stones</td>
-                                <td>220,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h2>Mythic</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Mythic Stones</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>5 stones</td>
-                                <td>1,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>10 stones</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>20 stones</td>
-                                <td>4,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>30 stones</td>
-                                <td>6,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>50 stones</td>
-                                <td>10,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>70 stones</td>
-                                <td>14,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>100 stones</td>
-                                <td>20,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>130 stones</td>
-                                <td>26,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>170 stones</td>
-                                <td>34,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>210 stones</td>
-                                <td>42,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>260 stones</td>
-                                <td>52,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>310 stones</td>
-                                <td>62,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>360 stones</td>
-                                <td>72,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>430 stones</td>
-                                <td>86,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="content-block">
+                {rarity == "mythic" && (
+                    <div class="rarity-table" id="mythic">
+                        <h2>
+                            <u>Mythic (Short Version)</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level Range</th>
+                                    <th>Mythic Stones</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 6</td>
+                                    <td>115 stones</td>
+                                    <td>23,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 12</td>
+                                    <td>940 stones</td>
+                                    <td>188,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 15</td>
+                                    <td>1,100 stones</td>
+                                    <td>220,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2>
+                            <u>Mythic</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Mythic Stones</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>5 stones</td>
+                                    <td>1,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>10 stones</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>20 stones</td>
+                                    <td>4,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>30 stones</td>
+                                    <td>6,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>50 stones</td>
+                                    <td>10,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>70 stones</td>
+                                    <td>14,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>100 stones</td>
+                                    <td>20,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>130 stones</td>
+                                    <td>26,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>170 stones</td>
+                                    <td>34,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>210 stones</td>
+                                    <td>42,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>260 stones</td>
+                                    <td>52,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>310 stones</td>
+                                    <td>62,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>360 stones</td>
+                                    <td>72,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>430 stones</td>
+                                    <td>86,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-                <div class="rarity-table hide" id="immortal">
-                    <h2>Immortal (Short Version)</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level Range</th>
-                                <th>Immortal Stones</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 6</td>
-                                <td>115 stones</td>
-                                <td>46,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 12</td>
-                                <td>940 stones</td>
-                                <td>376,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 15</td>
-                                <td>1,100 stones</td>
-                                <td>440,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <h2>Immortal</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Immortal Stones</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>5 stones</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>10 stones</td>
-                                <td>4,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>20 stones</td>
-                                <td>8,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>30 stones</td>
-                                <td>12,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>50 stones</td>
-                                <td>20,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>70 stones</td>
-                                <td>28,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>100 stones</td>
-                                <td>40,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>130 stones</td>
-                                <td>52,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>170 stones</td>
-                                <td>68,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>210 stones</td>
-                                <td>84,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>260 stones</td>
-                                <td>104,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>310 stones</td>
-                                <td>124,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>360 stones</td>
-                                <td>144,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>430 stones</td>
-                                <td>172,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {rarity == "immortal" && (
+                    <div class="rarity-table hide" id="immortal">
+                        <h2>
+                            <u>Immortal (Short Version)</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level Range</th>
+                                    <th>Immortal Stones</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 6</td>
+                                    <td>115 stones</td>
+                                    <td>46,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 12</td>
+                                    <td>940 stones</td>
+                                    <td>376,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 15</td>
+                                    <td>1,100 stones</td>
+                                    <td>440,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2>
+                            <u>Immortal</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Immortal Stones</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>5 stones</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>10 stones</td>
+                                    <td>4,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>20 stones</td>
+                                    <td>8,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>30 stones</td>
+                                    <td>12,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>50 stones</td>
+                                    <td>20,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>70 stones</td>
+                                    <td>28,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>100 stones</td>
+                                    <td>40,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>130 stones</td>
+                                    <td>52,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>170 stones</td>
+                                    <td>68,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>210 stones</td>
+                                    <td>84,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>260 stones</td>
+                                    <td>104,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>310 stones</td>
+                                    <td>124,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>360 stones</td>
+                                    <td>144,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>430 stones</td>
+                                    <td>172,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-                <div class="rarity-table hide" id="legendary">
-                    <h2>Legendary</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Duplicates</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>2 duplicates</td>
-                                <td>1,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>3 duplicates</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>4 duplicates</td>
-                                <td>4,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>10 duplicates</td>
-                                <td>6,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>15 duplicates</td>
-                                <td>10,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>20 duplicates</td>
-                                <td>14,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>30 duplicates</td>
-                                <td>20,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>40 duplicates</td>
-                                <td>26,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>50 duplicates</td>
-                                <td>34,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>65 duplicates</td>
-                                <td>42,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>80 duplicates</td>
-                                <td>52,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>95 duplicates</td>
-                                <td>62,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>110 duplicates</td>
-                                <td>72,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>130 duplicates</td>
-                                <td>86,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {rarity == "legendary" && (
+                    <div class="rarity-table hide" id="legendary">
+                        <h2>
+                            <u>Legendary</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Duplicates</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>2 duplicates</td>
+                                    <td>1,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>3 duplicates</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>4 duplicates</td>
+                                    <td>4,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>10 duplicates</td>
+                                    <td>6,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>15 duplicates</td>
+                                    <td>10,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>20 duplicates</td>
+                                    <td>14,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>30 duplicates</td>
+                                    <td>20,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>40 duplicates</td>
+                                    <td>26,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>50 duplicates</td>
+                                    <td>34,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>65 duplicates</td>
+                                    <td>42,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>80 duplicates</td>
+                                    <td>52,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>95 duplicates</td>
+                                    <td>62,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>110 duplicates</td>
+                                    <td>72,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>130 duplicates</td>
+                                    <td>86,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-                <div class="rarity-table hide" id="epic">
-                    <h2>Epic</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Duplicates</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>3 duplicates</td>
-                                <td>1,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>4 duplicates</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>8 duplicates</td>
-                                <td>4,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>12 duplicates</td>
-                                <td>6,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>20 duplicates</td>
-                                <td>10,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>30 duplicates</td>
-                                <td>14,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>40 duplicates</td>
-                                <td>20,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>50 duplicates</td>
-                                <td>26,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>70 duplicates</td>
-                                <td>34,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>85 duplicates</td>
-                                <td>42,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>105 duplicates</td>
-                                <td>52,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>125 duplicates</td>
-                                <td>62,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>145 duplicates</td>
-                                <td>72,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>170 duplicates</td>
-                                <td>86,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {rarity == "epic" && (
+                    <div class="rarity-table hide" id="epic">
+                        <h2>
+                            <u>Epic</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Duplicates</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>3 duplicates</td>
+                                    <td>1,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>4 duplicates</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>8 duplicates</td>
+                                    <td>4,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>12 duplicates</td>
+                                    <td>6,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>20 duplicates</td>
+                                    <td>10,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>30 duplicates</td>
+                                    <td>14,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>40 duplicates</td>
+                                    <td>20,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>50 duplicates</td>
+                                    <td>26,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>70 duplicates</td>
+                                    <td>34,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>85 duplicates</td>
+                                    <td>42,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>105 duplicates</td>
+                                    <td>52,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>125 duplicates</td>
+                                    <td>62,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>145 duplicates</td>
+                                    <td>72,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>170 duplicates</td>
+                                    <td>86,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-                <div class="rarity-table hide" id="rare">
-                    <h2>Rare</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Duplicates</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>3 duplicates</td>
-                                <td>1,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>6 duplicates</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>10 duplicates</td>
-                                <td>3,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>20 duplicates</td>
-                                <td>5,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>30 duplicates</td>
-                                <td>8,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>40 duplicates</td>
-                                <td>12,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>60 duplicates</td>
-                                <td>17,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>80 duplicates</td>
-                                <td>22,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>100 duplicates</td>
-                                <td>28,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>130 duplicates</td>
-                                <td>35,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>160 duplicates</td>
-                                <td>43,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>190 duplicates</td>
-                                <td>52,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>220 duplicates</td>
-                                <td>60,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>260 duplicates</td>
-                                <td>72,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {rarity == "rare" && (
+                    <div class="rarity-table hide" id="rare">
+                        <h2>
+                            <u>Rare</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Duplicates</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>3 duplicates</td>
+                                    <td>1,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>6 duplicates</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>10 duplicates</td>
+                                    <td>3,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>20 duplicates</td>
+                                    <td>5,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>30 duplicates</td>
+                                    <td>8,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>40 duplicates</td>
+                                    <td>12,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>60 duplicates</td>
+                                    <td>17,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>80 duplicates</td>
+                                    <td>22,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>100 duplicates</td>
+                                    <td>28,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>130 duplicates</td>
+                                    <td>35,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>160 duplicates</td>
+                                    <td>43,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>190 duplicates</td>
+                                    <td>52,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>220 duplicates</td>
+                                    <td>60,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>260 duplicates</td>
+                                    <td>72,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-                <div class="rarity-table hide" id="common">
-                    <h2>Common</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Level</th>
-                                <th>Duplicates</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1 → 2</td>
-                                <td>5 duplicates</td>
-                                <td>500 gold</td>
-                            </tr>
-                            <tr>
-                                <td>2 → 3</td>
-                                <td>10 duplicates</td>
-                                <td>1,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>3 → 4</td>
-                                <td>20 duplicates</td>
-                                <td>2,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>4 → 5</td>
-                                <td>30 duplicates</td>
-                                <td>3,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>5 → 6</td>
-                                <td>50 duplicates</td>
-                                <td>5,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>6 → 7</td>
-                                <td>70 duplicates</td>
-                                <td>7,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>7 → 8</td>
-                                <td>100 duplicates</td>
-                                <td>10,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>8 → 9</td>
-                                <td>130 duplicates</td>
-                                <td>13,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>9 → 10</td>
-                                <td>170 duplicates</td>
-                                <td>17,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>10 → 11</td>
-                                <td>210 duplicates</td>
-                                <td>21,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>11 → 12</td>
-                                <td>260 duplicates</td>
-                                <td>26,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>12 → 13</td>
-                                <td>310 duplicates</td>
-                                <td>31,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>13 → 14</td>
-                                <td>360 duplicates</td>
-                                <td>36,000 gold</td>
-                            </tr>
-                            <tr>
-                                <td>14 → 15</td>
-                                <td>430 duplicates</td>
-                                <td>43,000 gold</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {rarity == "common" && (
+                    <div class="rarity-table hide" id="common">
+                        <h2>
+                            <u>Common</u>
+                        </h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Duplicates</th>
+                                    <th>Gold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 → 2</td>
+                                    <td>5 duplicates</td>
+                                    <td>500 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>2 → 3</td>
+                                    <td>10 duplicates</td>
+                                    <td>1,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>3 → 4</td>
+                                    <td>20 duplicates</td>
+                                    <td>2,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>4 → 5</td>
+                                    <td>30 duplicates</td>
+                                    <td>3,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>5 → 6</td>
+                                    <td>50 duplicates</td>
+                                    <td>5,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>6 → 7</td>
+                                    <td>70 duplicates</td>
+                                    <td>7,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>7 → 8</td>
+                                    <td>100 duplicates</td>
+                                    <td>10,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>8 → 9</td>
+                                    <td>130 duplicates</td>
+                                    <td>13,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>9 → 10</td>
+                                    <td>170 duplicates</td>
+                                    <td>17,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>10 → 11</td>
+                                    <td>210 duplicates</td>
+                                    <td>21,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>11 → 12</td>
+                                    <td>260 duplicates</td>
+                                    <td>26,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>12 → 13</td>
+                                    <td>310 duplicates</td>
+                                    <td>31,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>13 → 14</td>
+                                    <td>360 duplicates</td>
+                                    <td>36,000 gold</td>
+                                </tr>
+                                <tr>
+                                    <td>14 → 15</td>
+                                    <td>430 duplicates</td>
+                                    <td>43,000 gold</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </Fragment>
     );
