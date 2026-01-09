@@ -35,5 +35,4 @@ if (env == "DEV") {
     });
 }
 
-console.log(routes[routes.length - 1].children);
 export default routes;
