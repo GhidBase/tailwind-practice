@@ -5,8 +5,10 @@ import Navbar from "./navbar/Navbar.jsx";
 import Title from "./Title.jsx";
 import NavBarOpenButton from "./NavBarOpenButton.jsx";
 import { useEffect, useState } from "react";
+import { usePageTracking } from "../hooks/usePageTracking.js";
 
 export default function Main() {
+    usePageTracking();
     const [navOpen, setNavOpen] = useState(false);
 
     function toggleNav(state) {
