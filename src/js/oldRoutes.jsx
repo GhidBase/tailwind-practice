@@ -79,4 +79,8 @@ export default [
         path: "/pages/unlock-order.html",
         element: <Navigate to="/unlock-order-hard" replace />,
     },
+    {
+        path: "/pages/immortal-guardians.html",
+        element: <Navigate to="/immortal-guardians" replace />,
+    },
 ];
