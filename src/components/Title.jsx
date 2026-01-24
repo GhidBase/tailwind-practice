@@ -1,5 +1,5 @@
-import { usePage } from "../contexts/PageProvider";
 import ldgLogo from "../assets/LDG_Title.webp";
+import { usePage } from "../hooks/usePage";
 
 export default function Title() {
     const { title, setTitle } = usePage();
