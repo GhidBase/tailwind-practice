@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
             const body = {
                 username,
                 password,
-                ...(adminSecret && { ...adminSecret }),
+                ...(adminSecret && { adminSecret }),
             };
 
             const response = await fetch(`${currentAPI}/sign-up`, {
