@@ -1,44 +1,62 @@
 import { useState, useEffect, Fragment } from "react";
 import TextBlock from "./blocks/TextBlock";
 import { useParams, Link, useNavigate } from "react-router";
-import { usePage } from "../contexts/PageProvider";
+import { usePage } from "../hooks/usePage";
 import SingleImageBlock from "./blocks/SingleImageBlock";
-const env = import.meta.env.VITE_ENV;
+import { useAuth } from "../hooks/useAuth";
+import { Pencil } from "lucide-react";
+import PendingReviewNotification from "./notifications/PendingReviewNotification";
 
-export default function PageBuilder({ className }) {
+export default function PageBuilder() {
     const navigate = useNavigate();
     const { pageTitle } = useParams();
+    const { user } = useAuth();
 
     const [blocks, setBlocks] = useState([]);
-    const [adminMode, setAdminMode] = useState(false);
+    const [unsavedBlocks, setUnsavedBlocks] = useState([]);
+    const [editMode, setEditMode] = useState(false);
     const [pageData, setPageData] = useState({});
-    const pageId = pageData.id;
+    const [showNotification, setShowNotification] = useState(false);
+    const pageId = pageData?.id;
     const orders = blocks.map((block) => (block.order ? block.order : 0));
-    const highestOrder = Math.max(...orders);
+    const highestOrder = orders.length > 0 ? Math.max(...orders) : 0;
 
     const { title, setTitle, currentAPI, gameId: contextGameId } = usePage();
-    if (pageData && title != pageData.title && pageData.title) {
-        setTitle(pageData.title);
+
+    const isAdmin = user?.role === "ADMIN";
+
+    async function deleteBlock(block) {
+        const response = await fetch(currentAPI + "/blocks/" + block.id, {
+            method: "DELETE",
+            credentials: "include",
+        });
+
+        if (response.status === 202) {
+            setShowNotification(true);
+            return;
+        }
+
+        const deletedBlock = await response.json();
+        setBlocks((prev) => prev.filter((b) => b.id !== deletedBlock.id));
     }
 
     useEffect(() => {
-        const gameId = 1;
-        const homepage = "lucky-defense";
-
         async function loadPageByName(name) {
+            if (!name) {
+                loadHomepage();
+                return;
+            }
             const apiUrl =
-                currentAPI + "/pages/" + name + "?type=title&gameId=" + 1;
+                currentAPI +
+                "/pages/" +
+                name +
+                "?type=title&gameId=" +
+                contextGameId;
 
             const response = await fetch(apiUrl);
             const result = await response.json();
-            const { page, blocks, notFound } = result;
+            const { page, blocks } = result;
             if (page == null) {
-                console.log("Page is null");
-                if (notFound) {
-                    console.log(
-                        "Page null caused by 0 search results, display 404",
-                    );
-                }
                 navigate("/404", { replace: true });
             } else {
                 setBlocks(blocks);
@@ -49,41 +67,117 @@ export default function PageBuilder({ className }) {
             const responseGameData = await fetch(
                 currentAPI + "/games/" + contextGameId,
             );
-            const resultGameData = await responseGameData.json();
-            const { slug, title } = resultGameData;
+            if (responseGameData.ok) {
+                const resultGameData = await responseGameData.json();
+                const { slug } = resultGameData;
 
-            const apiUrl =
-                currentAPI + "/pages/" + slug + "?type=title&gameId=" + 1;
+                const apiUrl =
+                    currentAPI +
+                    "/pages/" +
+                    slug +
+                    "?type=title&gameId=" +
+                    contextGameId;
 
-            const responsePageData = await fetch(apiUrl);
-            const resultPageData = await responsePageData.json();
+                const responsePageData = await fetch(apiUrl);
+                if (responsePageData.ok) {
+                    const resultPageData = await responsePageData.json();
 
-            const { page, blocks } = resultPageData;
-            if (page == null) {
-                console.log("Page is null");
-                console.log("homepage fail");
-            } else {
-                setBlocks(blocks);
-                setPageData(page);
+                    const { page, blocks } = resultPageData;
+                    setBlocks(blocks);
+                    setPageData(page);
+                }
             }
         }
 
-        if (pageTitle) {
+        if (pageTitle && pageTitle !== "null" && pageTitle !== "undefined") {
             loadPageByName(pageTitle);
-        } else if (!pageTitle) {
+        } else {
             loadHomepage();
         }
-    }, [pageId, pageTitle]);
+    }, [pageTitle, contextGameId, currentAPI, navigate]);
+
+    useEffect(() => {
+        if (pageData && title !== pageData.title && pageData.title) {
+            setTitle(pageData.title);
+        }
+    }, [pageData, title, setTitle]);
 
     function isOrderTaken(order) {
-        return blocks.find((block) => block.order == order) != undefined;
+        return blocks.find((block) => block.order === order) !== undefined;
     }
 
-    async function addBlock({ nextOrder = highestOrder + 1, type } = {}) {
-        const orderTaken = isOrderTaken(nextOrder);
+    // async function addBlock({ nextOrder = highestOrder + 1, type } = {}) {
+    //     if (!pageId) {
+    //         return;
+    //     }
+    //
+    //     const orderTaken = isOrderTaken(nextOrder);
+    //
+    //     if (orderTaken) {
+    //         await shiftBlocks(nextOrder);
+    //     }
+    //
+    //     const response = await fetch(
+    //         currentAPI + "/pages/" + pageId + "/blocks",
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             credentials: "include",
+    //             body: JSON.stringify({ order: nextOrder, type }),
+    //         },
+    //     );
+    //
+    //     if (response.status === 202) {
+    //         setShowNotification(true);
+    //         return;
+    //     }
+    //
+    //     const newBlock = await response.json();
+    //     const newBlocks = [...blocks, newBlock];
+    //     setBlocks(newBlocks);
+    // }
 
+    function createUnsavedBlock({ nextOrder = highestOrder + 1, type } = {}) {
+        if (!pageId) {
+            return;
+        }
+
+        const tempId = `temp-${Date.now()}`;
+        const newUnsavedBlock = {
+            id: tempId,
+            order: nextOrder,
+            type: type || null,
+            content: { content: "" },
+            content2: null,
+            isUnsaved: true,
+        };
+
+        setUnsavedBlocks((prev) => [...prev, newUnsavedBlock]);
+    }
+
+    async function saveUnsavedBlock(tempBlock, content) {
+        const orderTaken = isOrderTaken(tempBlock.order);
         if (orderTaken) {
-            await shiftBlocks(nextOrder);
+            const offsetResponse = await fetch(
+                currentAPI + "/pages/" + pageId + "/blocks",
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        type: tempBlock.type,
+                        order: tempBlock.order,
+                        content: content,
+                    }),
+                },
+            );
+
+            if (offsetResponse.status === 202) {
+                setShowNotification(true);
+                return;
+            }
         }
 
         const response = await fetch(
@@ -92,54 +186,85 @@ export default function PageBuilder({ className }) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Admin-Secret": import.meta.env.VITE_SECRET,
                 },
-                body: JSON.stringify({ order: nextOrder, type }),
+                credentials: "include",
+                body: JSON.stringify({
+                    order: tempBlock.order,
+                    type: tempBlock.type,
+                    content: content,
+                }),
             },
         );
-        const newBlock = await response.json();
-        const newBlocks = [...blocks, newBlock];
-        setBlocks(newBlocks);
-    }
 
-    async function shiftBlocks(order) {
-        const response = await fetch(
-            currentAPI + "/pages/" + pageId + "/blocks",
+        if (response.status === 202) {
+            setShowNotification(true);
+            setUnsavedBlocks((prev) =>
+                prev.filter((b) => b.id !== tempBlock.id),
+            );
+            return;
+        }
+
+        const newBlock = await response.json();
+
+        const updateResponse = await fetch(
+            currentAPI + "/blocks/" + newBlock.id,
             {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Admin-Secret": import.meta.env.VITE_SECRET,
                 },
-                body: JSON.stringify({ type: "offset", order }),
+                credentials: "include",
+                body: JSON.stringify({ content }),
             },
         );
-        if (!response.ok) {
-            throw new Error("Request failed");
+
+        if (updateResponse.status === 202) {
+            setShowNotification(true);
         }
-        blocks.map((block) => {
-            if (block.order >= order) {
-                block.order++;
-            }
-            return block;
-        });
-        return;
+
+        const updatedBlock = await updateResponse.json();
+
+        setUnsavedBlocks((prev) => prev.filter((b) => b.id !== tempBlock.id));
+        setBlocks((prev) => [...prev, updatedBlock]);
     }
 
-    async function deleteBlock(block) {
-        const response = await fetch(currentAPI + "/blocks/" + block.id, {
-            method: "DELETE",
-            headers: {
-                "X-Admin-Secret": import.meta.env.VITE_SECRET,
-            },
-        });
-
-        const deletedBlock = await response.json();
-        const newBlocks = blocks.filter((block) => {
-            return block.id != deletedBlock.id;
-        });
-        setBlocks(newBlocks);
+    function cancelUnsavedBlock(tempId) {
+        setUnsavedBlocks((prev) => prev.filter((b) => b.id !== tempId));
     }
+
+    // async function shiftBlocks(order) {
+    //     if (!pageId) {
+    //         return;
+    //     }
+    //
+    //     const response = await fetch(
+    //         currentAPI + "/pages/" + pageId + "/blocks",
+    //         {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             credentials: "include",
+    //             body: JSON.stringify({ type: "offset", order }),
+    //         },
+    //     );
+    //
+    //     if (response.status === 202) {
+    //         setShowNotification(true);
+    //         return;
+    //     }
+    //
+    //     if (!response.ok) {
+    //         throw new Error("Request failed");
+    //     }
+    //     const newBlocks = blocks.map((block) => {
+    //         if (block.order >= order) {
+    //             return { ...block, order: block.order + 1 };
+    //         }
+    //         return block;
+    //     });
+    //     setBlocks(newBlocks);
+    // }
 
     async function updateBlockWithEditorData(block, editorRef) {
         const content = editorRef.current.getContent();
@@ -149,18 +274,20 @@ export default function PageBuilder({ className }) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "X-Admin-Secret": import.meta.env.VITE_SECRET,
             },
+            credentials: "include",
             body: JSON.stringify({ content, content2 }),
         });
 
-        const result = await response.json();
-        const newBlocks = [...blocks];
-        const adjustIndex = newBlocks.findIndex(
-            (block) => block.id == result.id,
-        );
-        newBlocks[adjustIndex] = result;
-        setBlocks(newBlocks);
+        if (response.ok && response.status !== 202) {
+            const result = await response.json();
+            const newBlocks = [...blocks];
+            const adjustIndex = newBlocks.findIndex(
+                (block) => block.id == result.id,
+            );
+            newBlocks[adjustIndex] = result;
+            setBlocks(newBlocks);
+        }
     }
 
     async function refreshBlock(id) {
@@ -177,56 +304,70 @@ export default function PageBuilder({ className }) {
 
     return (
         <Fragment>
-            {adminMode && (
+            <div className="flex justify-center gap-2 mt-4 mb-4">
+                <button
+                    onClick={() => setEditMode(!editMode)}
+                    className="flex items-center gap-2 px-4 py-2 bg-(--primary) text-amber-50 rounded font-semibold cursor-pointer hover:opacity-90"
+                >
+                    <Pencil size={18} />
+                    {editMode ? "Done Editing" : "Edit"}
+                </button>
+            </div>
+            {editMode && (
                 <div className="flex justify-center gap-2 mt-4">
                     <button
-                        onClick={async () => {
-                            await addBlock({
+                        onClick={() => {
+                            createUnsavedBlock({
                                 nextOrder: 0,
+                                type: "text",
                             });
                         }}
-                        className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5"
+                        disabled={!pageId}
+                        className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5 cursor-pointer hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         + Text Block
                     </button>
                     <button
-                        onClick={async () => {
-                            await addBlock({
+                        onClick={() => {
+                            createUnsavedBlock({
                                 nextOrder: 0,
                                 type: "single-image",
                             });
                         }}
-                        className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5"
+                        disabled={!pageId}
+                        className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5 cursor-pointer hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         + Image Block
                     </button>
                 </div>
             )}
-            {blocks
+            {[...blocks, ...unsavedBlocks]
                 .sort((a, b) => a.order - b.order)
                 .map((block) => {
-                    // block values: id, pageId, content
                     let blockType;
-                    const buttons = adminMode ? (
+                    const buttons = editMode ? (
                         <div className="flex justify-center gap-2">
                             <button
-                                onClick={async () => {
-                                    await addBlock({
+                                onClick={() => {
+                                    createUnsavedBlock({
                                         nextOrder: block.order + 1,
+                                        type: "text",
                                     });
                                 }}
-                                className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5"
+                                disabled={!pageId}
+                                className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5 cursor-pointer hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 + Text Block
                             </button>
                             <button
-                                onClick={async () => {
-                                    await addBlock({
+                                onClick={() => {
+                                    createUnsavedBlock({
                                         nextOrder: block.order + 1,
                                         type: "single-image",
                                     });
                                 }}
-                                className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5"
+                                disabled={!pageId}
+                                className="text-amber-50 bg-(--primary) w-37 rounded px-2 py-0.5 cursor-pointer hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 + Image Block
                             </button>
@@ -234,53 +375,64 @@ export default function PageBuilder({ className }) {
                     ) : null;
                     switch (block.type) {
                         case null:
+                        case "text":
                             blockType = (
                                 <Fragment key={block.id}>
                                     <TextBlock
-                                        deleteBlock={() => deleteBlock(block)}
+                                        deleteBlock={() =>
+                                            block.isUnsaved
+                                                ? cancelUnsavedBlock(block.id)
+                                                : deleteBlock(block)
+                                        }
                                         block={block}
                                         updateBlockWithEditorData={
                                             updateBlockWithEditorData
                                         }
-                                        adminMode={adminMode}
-                                        addBlock={addBlock}
+                                        saveUnsavedBlock={saveUnsavedBlock}
+                                        editMode={editMode}
+                                        user={user}
+                                    />
+                                    {buttons}
+                                </Fragment>
+                            );
+                            break;
+                        case "single-image":
+                            blockType = (
+                                <Fragment key={block.id}>
+                                    <SingleImageBlock
+                                        deleteBlock={() =>
+                                            block.isUnsaved
+                                                ? cancelUnsavedBlock(block.id)
+                                                : deleteBlock(block)
+                                        }
+                                        block={block}
+                                        refreshBlock={refreshBlock}
+                                        editMode={editMode}
+                                        user={user}
                                     />
                                     {buttons}
                                 </Fragment>
                             );
                             break;
                         default:
-                            blockType = (
-                                <Fragment key={block.id}>
-                                    <SingleImageBlock
-                                        deleteBlock={() => deleteBlock(block)}
-                                        block={block}
-                                        refreshBlock={refreshBlock}
-                                        adminMode={adminMode}
-                                        addBlock={addBlock}
-                                    />
-                                    {buttons}
-                                </Fragment>
-                            );
+                            blockType = null;
                     }
                     return blockType;
                 })}
-            {env == "DEV" && (
+            {isAdmin && (
                 <div className="flex flex-col items-center mt-2 gap-2">
                     <Link
-                        className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5"
+                        className="text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5 cursor-pointer hover:opacity-90"
                         to={"/page-manager/"}
                     >
                         Back to Page Manager
                     </Link>
-                    <button
-                        className={`text-amber-50 bg-(--primary) w-50 rounded px-2 py-0.5`}
-                        onClick={() => setAdminMode(!adminMode)}
-                    >
-                        Switch View
-                    </button>
                 </div>
             )}
+            <PendingReviewNotification
+                visible={showNotification}
+                onDismiss={() => setShowNotification(false)}
+            />
         </Fragment>
     );
 }
