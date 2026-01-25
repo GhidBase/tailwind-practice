@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { usePage } from "../../hooks/usePage";
@@ -10,12 +10,14 @@ export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        setTitle("Login");
+    }, [setTitle]);
+
     if (isAuthenticated) {
         navigate("/");
         return;
     }
-
-    setTitle("Login");
 
     async function handleSubmit(e) {
         e.preventDefault();

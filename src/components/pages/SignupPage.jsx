@@ -43,7 +43,7 @@ export default function SignupPage() {
             <div className="bg-(--surface-background) border-2 border-(--primary) rounded p-6">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {(error || localError) && (
-                        <div className="p-3 bg-(--primary)/20 border border-(--primary) rounded text-(--text-color) text-sm">
+                        <div className="p-3 bg-red-900/30 border border-red-700 rounded text-(--text-color) text-sm">
                             {error || localError}
                         </div>
                     )}
