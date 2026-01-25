@@ -11,30 +11,29 @@ export default function UserManagement() {
     const [actionLoading, setActionLoading] = useState(null);
 
     useEffect(() => {
-        fetchUsers();
-    }, [currentAPI]);
+        async function fetchUsers() {
+            try {
+                setLoading(true);
+                const response = await fetch(`${currentAPI}/users`, {
+                    credentials: "include",
+                });
 
-    async function fetchUsers() {
-        try {
-            setLoading(true);
-            const response = await fetch(`${currentAPI}/users`, {
-                credentials: "include",
-            });
+                if (!response.ok) {
+                    throw new Error("Failed to fetch users");
+                }
 
-            if (!response.ok) {
-                throw new Error("Failed to fetch users");
+                const data = await response.json();
+                setUsers(data.filter((u) => u?.username !== user?.username));
+                setError(null);
+            } catch (err) {
+                setError(err.message);
+                setUsers([]);
+            } finally {
+                setLoading(false);
             }
-
-            const data = await response.json();
-            setUsers(data);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
-            setUsers([]);
-        } finally {
-            setLoading(false);
         }
-    }
+        fetchUsers();
+    }, [currentAPI, user]);
 
     async function handleRoleChange(userId, newRole) {
         try {
