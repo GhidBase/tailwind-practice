@@ -32,7 +32,7 @@ export default function PagesItem({
             {!editMode && (
                 <div className="flex justify-between w-full px-2">
                     <p>{page.title}</p>
-                    <p>{"ldg.com/" + slug}</p>
+                    <p>{"ldg.com/" + (slug || "no-slug")}</p>
                 </div>
             )}
             {editMode && (
@@ -73,7 +73,7 @@ export default function PagesItem({
             </button>
             <Link
                 className="text-amber-50 bg-(--primary) w-22 mr-2 rounded px-2 py-0.5"
-                to={"/" + page.slug}
+                to={`/${page?.slug}`}
             >
                 Edit
             </Link>
