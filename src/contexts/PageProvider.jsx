@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useParams } from "react-router";
 
 const PageContext = createContext(null);
 
 export function PageProvider({ children }) {
     const [title, setTitle] = useState("");
-    const [gameId, setGameId] = useState(1);
+    const [gameId, setGameId] = useState();
+    console.log("Game Id: " + gameId);
     const serverAPI = "https://guide-site-backend.onrender.com";
     const localAPI = "http://localhost:3000";
     const currentAPI =
@@ -19,15 +19,24 @@ export function PageProvider({ children }) {
     // dependency
     useEffect(() => {
         async function fetchGameByTitle() {
+            let game, gameId;
+            if (gameSlug == undefined) {
+                return;
+            }
             const response = await fetch(
                 currentAPI + "/games/by-slug/" + gameSlug,
             );
-            const game = await response.json();
-            const gameId = game.id;
-            setGameId(gameId);
-            console.log("game found");
-            console.log(game);
-            console.log(gameId);
+            if (response.status === 404) {
+                console.log("Game not found");
+                setGameId(null);
+            } else {
+                game = await response.json();
+                gameId = game.id;
+                setGameId(gameId);
+
+                console.log("game found");
+                console.log(gameId);
+            }
         }
         fetchGameByTitle();
     }, [gameSlug]);

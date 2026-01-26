@@ -16,7 +16,7 @@ export default function PageBuilder() {
     const orders = blocks.map((block) => (block.order ? block.order : 0));
     const highestOrder = Math.max(...orders);
 
-    const { title, setTitle, currentAPI, gameId, setGameTitle } = usePage();
+    const { title, setTitle, currentAPI, gameId, gameSlug } = usePage();
     if (pageData && title != pageData.title && pageData.title) {
         setTitle(pageData.title);
     }
@@ -37,7 +37,7 @@ export default function PageBuilder() {
                         "Page null caused by 0 search results, display 404",
                     );
                 }
-                navigate("/404", { replace: true });
+                navigate("/" + gameSlug + "/404", { replace: true });
             } else {
                 setBlocks(blocks);
                 setPageData(page);
