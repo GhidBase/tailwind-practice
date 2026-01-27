@@ -6,14 +6,9 @@ export default function NavbarButton({
     navbarTitle,
     className,
     toggleNav,
-    gameSlug,
 }) {
     return (
-        <Link
-            className={className}
-            to={"/" + gameSlug + slug}
-            onClick={() => toggleNav(false)}
-        >
+        <Link className={className} to={slug} onClick={() => toggleNav(false)}>
             {navbarTitle}
         </Link>
     );
