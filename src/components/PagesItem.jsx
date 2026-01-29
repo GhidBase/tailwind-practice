@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
 import { usePage } from "../contexts/PageProvider";
-import { Link } from "react-router";
+import { Link, useRouteLoaderData } from "react-router";
 
 export default function PagesItem({
     page,
@@ -15,7 +15,9 @@ export default function PagesItem({
     const [slugInputText, setSlugInputText] = useState("");
     const [editMode, setEditMode] = useState(false);
     const slug = page.slug;
-    const { gameSlug } = usePage();
+    // const { gameSlug } = usePage();
+    const { gameData } = useRouteLoaderData("main");
+    const gameSlug = gameData.slug;
 
     function toggleEditMode() {
         setInputText(page.title);
@@ -78,7 +80,7 @@ export default function PagesItem({
             {page.slug != null && (
                 <Link
                     className="text-amber-50 bg-(--primary) text-center w-22 mr-2 rounded px-2 py-0.5"
-                    to={"/" + gameSlug + "/" + page.slug}
+                    to={"/games/" + gameSlug + "/" + page.slug}
                 >
                     Edit
                 </Link>

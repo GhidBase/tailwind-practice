@@ -14,7 +14,22 @@ export default async function gameAndPageLoader({ params, request }) {
             path =
                 path + "/games/" + gameData.id + "/pages/by-slug/" + pageSlug;
         }
+        console.log(!!gameSlug);
+        console.log(!pageSlug);
+        console.log(path);
         const response = await fetch(path);
+        const result = await response.json();
+        return result;
+    }
+
+    async function fetchGameHomepage() {
+        const response = await fetch(
+            currentAPI +
+                "/games/" +
+                gameData.id +
+                "/pages/by-slug/" +
+                gameData.slug,
+        );
         const result = await response.json();
         return result;
     }
@@ -38,10 +53,13 @@ export default async function gameAndPageLoader({ params, request }) {
         gameData = await fetchGameBySlug();
     }
 
-    console.log();
-
-    if (pageSlug != null && pageSlug != undefined) {
+    if (!!pageSlug) {
         pageData = await fetchPageBySlug();
+    }
+    // if !!gameData && !pageSlug
+    // fetchGameHomepage
+    if (!!gameData && !pageSlug) {
+        pageData = await fetchGameHomepage();
     }
 
     return { gameData, pageData };

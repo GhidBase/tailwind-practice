@@ -1,6 +1,8 @@
 import "../tailwind.css";
+import { currentAPI } from "../config/api";
 import { Fragment, useEffect, useState } from "react";
 import PagesItem from "./PagesItem";
+import { useRouteLoaderData } from "react-router";
 import { usePage } from "../contexts/PageProvider";
 import GameItem from "./GameItem";
 // const secret = import.meta.env.VITE_SECRET;
@@ -12,9 +14,12 @@ import GameItem from "./GameItem";
 
 export default function PageManager() {
     const [pages, setPages] = useState([]);
+    const { gameData } = useRouteLoaderData("main");
+    const gameId = gameData.id;
+
     const [title, setTitleInput] = useState("");
-    const { currentAPI, setTitle, gameId } = usePage();
-    setTitle("Page Manager");
+    //const { currentAPI, setTitle, gameId } = usePage();
+    //setTitle("Page Manager");
 
     useEffect(() => {
         if (!gameId) {

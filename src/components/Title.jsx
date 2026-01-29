@@ -1,12 +1,11 @@
 import { usePage } from "../contexts/PageProvider";
 import ldgLogo from "../assets/LDG_Title.webp";
+import { useRouteLoaderData } from "react-router";
 
 export default function Title() {
-    const { title, setTitle } = usePage();
+    const { pageData } = useRouteLoaderData("main");
+    const title = pageData.page.title;
 
-    // if (title == "LD Homepage") {
-    //     return <img className="h-30" src={ldgLogo} alt="" />;
-    // }
     return (
         <div
             id="page-builder-title"

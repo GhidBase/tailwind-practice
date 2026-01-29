@@ -1,5 +1,6 @@
 import NavbarButton from "./NavbarButton";
 import { usePage } from "../../contexts/PageProvider";
+import { useNavigate, useLoaderData } from "react-router";
 import { Fragment } from "react";
 import NavbarSection from "./NavbarSection";
 const env = import.meta.env.VITE_ENV;
@@ -10,7 +11,9 @@ export default function Navbar({
     toggleNav,
     closeClassName,
 }) {
-    const { gameSlug } = usePage();
+    const { gameData, pageData } = useLoaderData();
+    const gameSlug = "games/" + gameData.slug;
+    //console.log(gameData);
 
     const navbar = [
         {
@@ -253,13 +256,13 @@ export default function Navbar({
         navbar.unshift(
             {
                 id: 102,
-                slug: "/game-manager",
+                slug: "/" + gameSlug + "/game-manager",
                 navbarTitle: "Game Manager",
                 type: "page",
             },
             {
                 id: 101,
-                slug: "/page-manager",
+                slug: "/" + gameSlug + "/page-manager",
                 navbarTitle: "Page Manager",
                 type: "page",
             },
